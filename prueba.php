@@ -35,6 +35,7 @@ if (isset($_SESSION['error_message'])) {
     unset($_SESSION['error_message']);
 }
 ?>
+
 <main class="container" style="min-width: 30%; min-height: 30%;">
     <div class="d-flex text-center">
         <div style="background-color: #2A9D8F; max-width: 600px; height: 350px; margin: auto;"  class="col contact" data-aos="fade-up" data-aos-delay="300">
@@ -51,6 +52,12 @@ if (isset($_SESSION['error_message'])) {
                 </div>
                 <button style="max-width: 14vmax; min-width: 120px;" type="submit">Acceder</button>
             </form>
+
+            <div class="mt-3">
+                ¿Eres un cliente nuevo?
+                <a href="./forms/register.php" class="text-center" style="color:white">Regístrate</a>
+            </div>
+            
         </div>
     </div>
 
