@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
             // Credenciales inválidas
             $_SESSION['error_message'] = "Credenciales inválidas. Por favor, intente nuevamente.";
-            header("Location: ../prueba.php");
+            header("Location: ../login.php");
             exit;
             
         }
@@ -48,7 +48,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         
         // Credenciales inválidas
         $_SESSION['error_message'] = "Credenciales inválidas. Por favor, intente nuevamente.";
-        header("Location: ../prueba.php");
+        header("Location: ../login.php");
         exit;
     }
 

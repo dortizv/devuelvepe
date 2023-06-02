@@ -75,7 +75,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 <?php
 //FIN DE VALIDACIÓN
 }else{
-    header("Location:./../prueba.php");
+    header("Location:./../login.php");
     exit;
 }
 ?>

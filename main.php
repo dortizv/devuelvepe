@@ -18,7 +18,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
     <title>Página principal</title>
 </head>
 
-<body>
+<body style="min-width: 400px;">
 
 <div class="container-fluid m-0 p-0">
     <div class="row bg-light">
@@ -83,32 +83,28 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                     <p class="mt-3 mb-3 font-custom">Préstamos</p>
                 </div>
             </div>
-            
-        </div>
-            <div class="row d-flex justify-content-center">
-                <div href="" class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                    <div class="figure align-middle">
-                        <a class="align-content-center" type="image" href="">
-                            <img src="assets/icons/history.png" height="100" width="100"/>
-                        </a>
-                        <p class="mt-3 mb-3 font-custom">Historial</p>
-                    </div>
+            <div href="" class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                <div class="figure align-middle">
+                    <a class="align-content-center" type="image" href="">
+                        <img src="assets/icons/history.png" height="100" width="100"/>
+                    </a>
+                    <p class="mt-3 mb-3 font-custom">Historial</p>
                 </div>
-                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                    <div class="figure align-middle">
-                        <a class="align-content-center" type="image" href="">
-                            <img src="assets/icons/reports.png" height="100" width="100"/>
-                        </a>
-                        <p class="mt-3 mb-3 font-custom">Reportes</p>
-                    </div>
+            </div>
+            <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                <div class="figure align-middle">
+                    <a class="align-content-center" type="image" href="">
+                        <img src="assets/icons/reports.png" height="100" width="100"/>
+                    </a>
+                    <p class="mt-3 mb-3 font-custom">Reportes</p>
                 </div>
-                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                    <div class="figure align-middle">
-                        <a class="align-content-center" type="image" href="">
-                            <img src="assets/icons/logout.png" height="100" width="100"/>
-                        </a>
-                        <p class="mt-3 mb-3 font-custom">Salir</p>
-                    </div>
+            </div>
+            <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                <div class="figure align-middle">
+                    <a class="align-content-center" type="image" href="">
+                        <img src="assets/icons/logout.png" height="100" width="100"/>
+                    </a>
+                    <p class="mt-3 mb-3 font-custom">Salir</p>
                 </div>
             </div>
         </div>
@@ -161,7 +157,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
 <?php  
 }else{
-    header("Location:./prueba.php");
+    header("Location:./login.php");
     exit;
 }
 ?>
