@@ -55,7 +55,7 @@ if (isset($_SESSION['error_message'])) {
 
             <div class="my-auto text-white">
                 ¿Eres un cliente nuevo?
-                <a href="./forms/register.php" class="text-center" style="color:#FFCC66; font-weight: bold">Regístrate</a>
+                <a href="./register.php" class="text-center" style="color:#FFCC66; font-weight: bold">Regístrate</a>
             </div>
             
         </div>
