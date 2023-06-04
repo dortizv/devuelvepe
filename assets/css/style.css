@@ -6,6 +6,9 @@
 * License: https://bootstrapmade.com/license/
 */
 
+
+
+
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
@@ -32,6 +35,15 @@ h5,
 h6 {
   font-family: "Raleway", sans-serif;
 }
+
+table {
+  border-collapse: separate;
+}
+
+tr{
+  border:transparent;
+}
+
 
 /*--------------------------------------------------------------
 # Back to top button
