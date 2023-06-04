@@ -48,6 +48,8 @@ $result = $stmt->get_result();
 
         <!-- Template Main CSS File -->
         <link href="./assets/css/style.css" rel="stylesheet">
+        <link href="./assets/css/popups.css" rel="stylesheet">
+        <script src="./assets/js/popup.js"></script>
 
     </head>
     <body style="min-width: 560px">
@@ -66,9 +68,9 @@ $result = $stmt->get_result();
                         <li class="col-auto php-email-form" style="min-width: 190px">
                             <input type="text" class="form-control" name="buscar" placeholder="Buscar"  required>
                         </li class="col-6">
-                        <li class="col-auto justify-content-center align-items-center d-flex">
+                        <li onclick="openDiv()" class="col-auto justify-content-center align-items-center d-flex" style="cursor: pointer">
                             <img class="col-auto"  src="assets/icons/add.png" style="height: 40px">
-                            <a href="#" class="col-auto m-0 p-0 px-2 text-black" style="font-weight: bold">Nuevo préstamo</a>
+                            <a class="col-auto m-0 p-0 px-2 text-black" style="font-weight: bold">Nuevo préstamo</a>
                         </li>
                     </ul>
                     <i class="bi bi-list mobile-nav-toggle"></i>
@@ -77,6 +79,14 @@ $result = $stmt->get_result();
         </header>
 
         <main id="main" class="d-flex align-items-center" style="margin-top: 112px; margin: 112px 10% 5% 10%;">
+
+            <div class="struct" id="nuevopres">
+                <div class="prompt">
+                    <p>HOLA</p>
+                    <button onclick="closeDiv()">Cerrar</button>
+                </div>
+            </div>
+
             <table class="table" style="border-collapse: separate; border-spacing: 0">
                 <thead class="thead-dark text-center" style="border: transparent">
                 <tr>
