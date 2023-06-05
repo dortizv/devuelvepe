@@ -9,7 +9,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
     $db = connect_db();
 
-    $sql = "SELECT prestamo.idCliente, cliente.nombre, cliente.apellido, prestamo.monto, prestamo.cuotas, prestamo.tasa, prestamo.fecha 
+    $sql = "SELECT prestamo.idCliente, cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
             FROM prestamo 
             INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
             INNER JOIN usuario ON usuario.id=cobrador.id 
@@ -22,7 +22,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
     $stmt->execute();
     $result = $stmt->get_result();
 
-    //
+
     //$row = $result -> fetch_assoc();
     //var_dump($row);
     //die();
@@ -43,10 +43,9 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
       <thead class="thead-dark text-center">
         <tr>
           <th scope="col">Clientes</th>
-          <th scope="col">Cuotas</th>
-          <th scope="col">Deuda Total</th>
-          <th scope="col">Próximo pago</th>
-          <th scope="col">Tasa (%)</th>
+          <th scope="col">Documento</th>
+          <th scope="col">N° Documento</th>
+          <th scope="col">Estado</th>
           <th scope="col">Botones</th>
         </tr>
       </thead>
@@ -55,10 +54,9 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
         while ($row = $result -> fetch_assoc()){
         echo "<tr class='text-center'>";
         echo "<td>" . $row['nombre'] .' '.$row['apellido']."</td>";
-        echo "<td>" . $row['cuotas'] . "</td>";
-        echo "<td>" . $row['monto'] . "</td>";
-        echo "<td>" . $row['fecha'] . "</td>";
-        echo "<td>" . $row['tasa'] . "</td>";
+        echo "<td>" . strtoupper($row['tipodocumento']) . "</td>";
+        echo "<td>" . $row['documento'] . "</td>";
+        echo "<td>Activo</td>"; //FALTA PONER LA LÓGICA PARA DETERMINAR SI ES ACTIVO O NO
         echo "</tr>";
         }
 

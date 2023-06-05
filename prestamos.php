@@ -63,7 +63,7 @@ $result = $stmt->get_result();
                     <ul class="row justify-content-center align-items-center contact text-black" style="font-weight: bold">
                         <li class= "col-auto justify-content-center align-items-center d-flex">
                             <img class="col-auto"  src="assets/icons/cube.png" style="height: 40px">
-                            <a href="#" class="col-auto m-0 p-0 px-2 text-black" style="font-weight: bold">Inicio</a>
+                            <a href="./main.php" class="col-auto m-0 p-0 px-2 text-black" style="font-weight: bold">Inicio</a>
                         </li>
                         <li class="col-auto php-email-form" style="min-width: 190px">
                             <input type="text" class="form-control" name="buscar" placeholder="Buscar"  required>

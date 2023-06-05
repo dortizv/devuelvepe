@@ -116,7 +116,7 @@
 
             <div class="row justify-content-center pb-4">
                 <button class="mx-3" style="width: fit-content" type="submit">Registrarse</button>
-                <button class="mx-3" style="background-color: lightgray; width: fit-content" type="submit">Cancelar</button>
+                <button class="mx-3" style="background-color: lightgray; width: fit-content" type="submit" formaction="login.php" formnovalidate>Cancelar</button>
             </div>
 
         </form>
