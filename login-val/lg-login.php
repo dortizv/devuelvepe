@@ -30,15 +30,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if (password_verify($pass, $hashedPassword)) {
             
             // Inicio de sesión exitoso
-            $nombreUsuario = $row['nombre'];
-            echo "Inicio de sesión exitoso. Bienvenido: ".$nombreUsuario ;
+            $_SESSION['nombreUsuario'] = ucwords(strtolower($row['nombre']));
+            $_SESSION['idUsuario'] = $row['id'];
+            header('Location:./../main.php');
+            //echo "Inicio de sesión exitoso. Bienvenido: ".$nombreUsuario ;
             
             // Fallo en Inicio de sesión
         } else {
             
             // Credenciales inválidas
             $_SESSION['error_message'] = "Credenciales inválidas. Por favor, intente nuevamente.";
-            header("Location: ../prueba.php");
+            header("Location: ../login.php");
             exit;
             
         }
@@ -46,7 +48,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         
         // Credenciales inválidas
         $_SESSION['error_message'] = "Credenciales inválidas. Por favor, intente nuevamente.";
-        header("Location: ../prueba.php");
+        header("Location: ../login.php");
         exit;
     }
 

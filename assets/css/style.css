@@ -15,12 +15,12 @@ body {
 }
 
 a {
-  color: #3498db;
+  color: #F79868;
   text-decoration: none;
 }
 
 a:hover {
-  color: #5faee3;
+  color: #FFCC66;
   text-decoration: none;
 }
 
@@ -32,6 +32,15 @@ h5,
 h6 {
   font-family: "Raleway", sans-serif;
 }
+
+table {
+  border-collapse: separate;
+}
+
+tr{
+  border:transparent;
+}
+
 
 /*--------------------------------------------------------------
 # Back to top button
@@ -483,9 +492,9 @@ section {
 .section-title h2::before,
 .section-title h2::after {
   content: "";
-  width: 50px;
-  height: 2px;
-  background: #3498db;
+  width: 30px;
+  height: 3px;
+  background: #FFCC66;
   display: inline-block;
 }
 
@@ -1493,7 +1502,7 @@ section {
 }
 
 .contact .php-email-form button[type=submit] {
-  background: #3498db;
+  background: #FFCC66;
   border: 0;
   padding: 10px 24px;
   color: #fff;
@@ -1502,7 +1511,7 @@ section {
 }
 
 .contact .php-email-form button[type=submit]:hover {
-  background: #2383c4;
+  background: #F79969;
 }
 
 @keyframes animate-loading {
