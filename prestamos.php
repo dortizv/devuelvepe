@@ -3,29 +3,28 @@
 session_start();
 if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
-include_once("./login-val/db.php");
+    include_once("./login-val/db.php");
 
-$userId = $_SESSION['idUsuario'];
+    $userId = $_SESSION['idUsuario'];
 
-$db = connect_db();
+    $db = connect_db();
 
-$sql = "SELECT prestamo.idCliente, cliente.nombre, cliente.apellido, prestamo.monto, prestamo.cuotas, prestamo.tasa, prestamo.fecha 
-            FROM prestamo 
-            INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
-            INNER JOIN usuario ON usuario.id=cobrador.id 
-            INNER JOIN cliente ON prestamo.idCliente = cliente.id 
-            WHERE usuario.id = ?";
+    $sql = "SELECT prestamo.idCliente, cliente.nombre, cliente.apellido, prestamo.monto, prestamo.cuotas, prestamo.tasa, prestamo.fecha 
+                FROM prestamo 
+                INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
+                INNER JOIN usuario ON usuario.id=cobrador.id 
+                INNER JOIN cliente ON prestamo.idCliente = cliente.id 
+                WHERE usuario.id = ?";
 
 
-$stmt = $db->prepare($sql);
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$result = $stmt->get_result();
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-//
-//$row = $result -> fetch_assoc();
-//var_dump($row);
-//die();
+    //$row = $result -> fetch_assoc();
+    //var_dump($row);
+    //die();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -83,7 +82,49 @@ $result = $stmt->get_result();
             <div class="struct" id="nuevopres">
                 <div class="prompt">
                     <p>HOLA</p>
+                    <div class="container">
+                        <p>HOLA DE NUEVO</p>
+                    
+                    <!-- CONSULTAS A LA BASE DE DATOS PARA EXTRAER CLIENTES Y COBRADORES -->
+                    <?php
+                    $opciones_clientes = "SELECT cliente.id, cliente.nombre, cliente.apellido 
+                                            FROM cliente
+                                            ORDER BY cliente.nombre ASC";
+                    $result_clientes = $db->query($opciones_clientes);
+
+                    $opciones_cobrador = "SELECT cobrador.id, cobrador.nombre, cobrador.apellido
+                                          FROM cobrador
+                                          WHERE idUsuario = $userId
+                                          ORDER BY cobrador.nombre ASC";
+                    $result_cobradores = $db->query($opciones_cobrador);
+
+                    $list_clientes = '';
+                    $list_cobradores = '';
+
+                    while ($row = $result_clientes->fetch_assoc()) {
+                        $list_clientes .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . ' ' . $row['apellido'] . "</option>";
+                    }
+
+                    while ($row = $result_cobradores->fetch_assoc()) {
+                        $list_cobradores .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . ' ' . $row['apellido'] . "</option>";
+                    }
+                    ?>
+
+                    <label for="cliente">Selecciona un cliente:</label>
+                    <select class="form-control" id="cliente" name="cliente">
+                        <?php echo $list_clientes; ?>
+                    </select>
+
+                    <label for="cobrador">Selecciona un cobrador:</label>
+                    <select class="form-control" id="cobrador" name="cobrador">
+                        <?php echo $list_cobradores; ?>
+                    </select>
+
+                    <!-- FIN DE CONSULTA A BD PARA ELECCIÓN DE CLIENTE Y COBRADOR  -->
+                    </div>
                     <button onclick="closeDiv()">Cerrar</button>
+
+                    <!-- CREAR UN FORM DEL TIPO POST Y AGREGAR INPUT PARA MONTO, TASA Y CUOTAS-->
                 </div>
             </div>
 

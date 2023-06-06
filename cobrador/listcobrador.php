@@ -9,12 +9,12 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
     $db = connect_db();
 
-    $sql = "SELECT prestamo.idCliente, cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
-            FROM cliente 
-            INNER JOIN prestamo ON prestamo.idCliente = cliente.id
-            INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
-            WHERE cobrador.idUsuario = ?";
-
+    $sql = "SELECT cobrador.idUsuario, cobrador.nombre, cobrador.apellido, cobrador.dni, COUNT(DISTINCT prestamo.id) AS cantidad_prestamos
+                        FROM cobrador
+                        INNER JOIN prestamo ON cobrador.id = prestamo.idCobrador
+                        WHERE cobrador.idUsuario = ?
+                        GROUP BY cobrador.nombre";
+                        
 
     $stmt = $db->prepare($sql);
     $stmt->bind_param("i", $userId);
@@ -30,39 +30,39 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Listado de clientes</title>
+  <title>Listado de cobradores</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
   <div class="container">
-    <h1 class="mt-4">[logo] Clientes</h1>
+    <h1 class="mt-4">[logo] Cobradores</h1>
     <h1 class="mt-4">Sección de íconos [icons]</h1>
     
     <table class="table">
       <thead class="thead-dark text-center">
         <tr>
-          <th scope="col">Clientes</th>
-          <th scope="col">Documento</th>
-          <th scope="col">N° Documento</th>
-          <th scope="col">Estado</th>
+          <th scope="col">Colaborador</th>
+          <th scope="col">DNI</th>
+          <th scope="col">Clientes a cargo</th>
+          <th scope="col">Clientes con deuda</th>
           <th scope="col">Botones</th>
         </tr>
       </thead>
       <tbody>
-
+        
         <?php
 
         while ($row = $result -> fetch_assoc()){
         echo "<tr class='text-center'>";
-        echo "<td>" . strtoupper($row['nombre']) .' '. strtoupper($row['apellido']) . "</td>";
-        echo "<td>" . strtoupper($row['tipodocumento']) . "</td>";
-        echo "<td>" . $row['documento'] . "</td>";
-        echo "<td>Activo</td>"; //FALTA PONER LA LÓGICA PARA DETERMINAR SI ES ACTIVO O NO (Parece que se debe crear un campo en la tabla 'prestamo')
+        echo "<td>" . strtoupper($row['nombre']) .' '.strtoupper($row['apellido'])."</td>";
+        echo "<td>" . $row['dni'] . "</td>";
+        echo "<td>" . $row['cantidad_prestamos'] . "</td>";        
+        echo "<td>" . $row['cantidad_prestamos'] . "</td>"; ; //FALTA PONER LA LÓGICA PARA DETERMINAR SI HAY CLIENTES MOROSOS (Parece que se debe crear un campo en la tabla 'prestamo')
         echo "</tr>";
         }
 
         ?>
-        
+
       </tbody>
     </table>
   </div>

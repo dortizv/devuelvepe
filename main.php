@@ -59,7 +59,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
             
             <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                 <div class="figure align-middle">
-                    <a class="align-content-center" type="image" href="">
+                    <a class="align-content-center" type="image" href="./cobrador/listcobrador.php">
                         <img src="assets/icons/collaborator.png" height="100" width="100"/>
                     </a>
                         <p class="mt-3 mb-3 font-custom">Cobradores</p>
