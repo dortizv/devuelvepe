@@ -9,15 +9,21 @@
 }
 
 .prompt{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -250px;
-    margin-left: -300px;
-    width: 600px;
-    height: 500px;
-    text-align: center;
+    width: 43.92%;
+    min-width: 420px;
+    text-align: left;
     background-color: #EFEFEF;
     border-radius: 15px;
     filter: drop-shadow(4px 4px 6px);
+    margin: 150px auto auto auto;
+    padding: 20px;
+}
+
+td:first-child,
+th:first-child {
+    border-radius: 10px 0 0 10px;
+}
+td:last-child,
+th:last-child {
+    border-radius: 0 10px 10px 0;
 }
