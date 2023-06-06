@@ -10,10 +10,10 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
     $db = connect_db();
 
     $sql = "SELECT cobrador.idUsuario, cobrador.nombre, cobrador.apellido, cobrador.dni, COUNT(DISTINCT prestamo.id) AS cantidad_prestamos
-                        FROM cobrador
-                        INNER JOIN prestamo ON cobrador.id = prestamo.idCobrador
-                        WHERE cobrador.idUsuario = ?
-                        GROUP BY cobrador.nombre";
+            FROM cobrador
+            LEFT JOIN prestamo ON cobrador.id = prestamo.idCobrador
+            WHERE cobrador.idUsuario = ?
+            GROUP BY cobrador.nombre";
 
 
     $stmt = $db->prepare($sql);

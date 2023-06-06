@@ -11,7 +11,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
     $sql = "SELECT cobrador.idUsuario, cobrador.nombre, cobrador.apellido, cobrador.dni, COUNT(DISTINCT prestamo.id) AS cantidad_prestamos
                         FROM cobrador
-                        INNER JOIN prestamo ON cobrador.id = prestamo.idCobrador
+                        LEFT JOIN prestamo ON cobrador.id = prestamo.idCobrador
                         WHERE cobrador.idUsuario = ?
                         GROUP BY cobrador.nombre";
                         
