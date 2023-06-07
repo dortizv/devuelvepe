@@ -50,16 +50,16 @@
                 <div class="col-md-4 col-sm-12 mb-3 m-auto">
                     <label class="row mb-0 mx-auto">Tipo de documento</label>
                     <div class="form-check custom-radio px-0">
-                        <input type="radio" name="tipodocumento" value="dni" id="dni"> DNI
-                        <input type="radio" name="tipodocumento" value="carnetext" id="carnetext"> Carnet Extranjería
+                        <input type="radio" name="tipodocumento" value="dni" id="dni" required> DNI
+                        <input type="radio" name="tipodocumento" value="carnetext" id="carnetext" required> Carnet Extranjería
                     </div>
                 </div>
 
                 <div class="col-md-4 col-sm-12 mb-3 m-auto">
                     <label class="mb-0 mx-auto">Sexo</label>
                     <div class="form-check custom-radio px-0">
-                        <input  type = "radio" name="genero" value = "masculino" id="masculino"> Masculino
-                        <input  type = "radio" name="genero" value = "femenino" id="femenino"> Femenino
+                        <input  type = "radio" name="genero" value = "masculino" id="masculino" required> Masculino
+                        <input  type = "radio" name="genero" value = "femenino" id="femenino" required> Femenino
                     </div>
                 </div>
             </div>
@@ -110,7 +110,7 @@
 
             <div class="row">
                 <div class="custom-control custom-checkbox mx-3 mb-3">
-                    <input type="checkbox" class="custom-control-input" id="accept-term"> Aceptar las <a href="">Condiciones de servicio</a> y la <a href="">Política de privacidad</a> de Devuelve.pe</label>
+                    <input type="checkbox" class="custom-control-input" id="accept-term" required> Aceptar las <a href="">Condiciones de servicio</a> y la <a href="">Política de privacidad</a> de Devuelve.pe</label>
                 </div>
             </div>
 

@@ -12,7 +12,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
     $sql = "SELECT prestamo.idCliente, cliente.nombre, cliente.apellido, prestamo.monto, prestamo.cuotas, prestamo.tasa, prestamo.fecha 
                 FROM prestamo 
                 INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
-                INNER JOIN usuario ON usuario.id=cobrador.id 
+                INNER JOIN usuario ON usuario.id=cobrador.idUsuario 
                 INNER JOIN cliente ON prestamo.idCliente = cliente.id 
                 WHERE usuario.id = ?";
 
@@ -295,7 +295,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                     <th scope="col">Deuda Total</th>
                     <th scope="col">Próximo pago</th>
                     <th scope="col">Tasa (%)</th>
-                    <th scope="col"></th>
+                    <th scope="col" style="width: 21%"></th>
                 </tr>
                 </thead>
                 <tbody class="align-middle justify-content-center">

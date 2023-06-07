@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // VERIFICAR SI LA INSERCIÓN FUE EXITOSA
     if($stmt->affected_rows > 0){
         // Registro exitoso
-        echo "Registro exitoso";
+        header("Location:./../login.php");
     }else{
         // Ocurrió un error al insertar los datos
         echo "Error en el registro: " . $db->error;
