@@ -9,7 +9,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
     $db = connect_db();
 
-    $sql = "SELECT prestamo.idCliente, cliente.nombre, cliente.apellido, prestamo.monto, prestamo.cuotas, prestamo.tasa, prestamo.fecha 
+    $sql = "SELECT prestamo.idCliente, cliente.nombre AS cliente_nombre, cliente.apellido AS cliente_apellido, cobrador.nombre AS cobrador_nombre, cobrador.apellido AS cobrador_apellido, prestamo.monto, prestamo.cuotas, prestamo.tasa, prestamo.fecha 
                 FROM prestamo 
                 INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
                 INNER JOIN usuario ON usuario.id=cobrador.idUsuario 
@@ -58,7 +58,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
     </head>
     <body style="min-width: 770px">
 
-    <!-- nuevo prestamo -->
+    <!-- NUEVO PRÉSTAMO -->
     <div class="struct" id="nuevopres">
         <div class="prompt">
             <div style="text-align: end; margin: 0px 16px" onclick="closeDiv()">
@@ -69,7 +69,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Nuevo préstamo</p>
             <div class="container">
-                <!-- CONSULTAS A LA BASE DE DATOS PARA EXTRAER CLIENTES Y COBRADORES -->
+                <!-- CONSULTAS A LA BASE DE DATOS PARA EXTRAER LISTADO DE CLIENTES Y COBRADORES -->
                 <?php
                 $opciones_clientes = "SELECT cliente.id, cliente.nombre, cliente.apellido 
                                             FROM cliente
@@ -107,8 +107,8 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                         <?php echo $list_cobradores; ?>
                     </select>
                 </div>
-                <!-- FIN DE CONSULTA A BD PARA ELECCIÓN DE CLIENTE Y COBRADOR  -->
-                <!-- CREAR UN FORM DEL TIPO POST Y AGREGAR INPUT PARA MONTO, TASA Y CUOTAS-->
+                <!-- FIN DE CONSULTA A BD PARA LISTA DE CLIENTE Y COBRADOR  -->
+
                 <div class="mb-3">
                     <label for="cobrador" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresa el monto (S/):</label>
                     <input type="text" class="form-control" id="monto" name="monto" style="font-family: Raleway; font-weight: 600; font-size: 16px">
@@ -130,8 +130,9 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
         </div>
     </div>
+    <!-- FIN NUEVO PRÉSTAMO -->
 
-    <!-- editar prestamo -->
+    <!-- DESPLEGABLE EDITAR PRÉSTAMO -->
     <div class="struct" id="editar">
         <div class="prompt">
             <div style="text-align: end; margin: 0px 16px" onclick="closeDiveditar()">
@@ -142,69 +143,49 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Editar préstamo</p>
             <div class="container">
-                <!-- CONSULTAS A LA BASE DE DATOS PARA EXTRAER CLIENTES Y COBRADORES -->
-                <?php
-                $opciones_clientes = "SELECT cliente.id, cliente.nombre, cliente.apellido 
-                                            FROM cliente
-                                            ORDER BY cliente.nombre ASC";
-                $result_clientes = $db->query($opciones_clientes);
-
-                $opciones_cobrador = "SELECT cobrador.id, cobrador.nombre, cobrador.apellido
-                                          FROM cobrador
-                                          WHERE idUsuario = $userId
-                                          ORDER BY cobrador.nombre ASC";
-                $result_cobradores = $db->query($opciones_cobrador);
-
-                $list_clientes = '';
-                $list_cobradores = '';
-
-                while ($row = $result_clientes->fetch_assoc()) {
-                    $list_clientes .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . ' ' . $row['apellido'] . "</option>";
-                }
-
-                while ($row = $result_cobradores->fetch_assoc()) {
-                    $list_cobradores .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . ' ' . $row['apellido'] . "</option>";
-                }
-                ?>
-
+                
+                <!-- campo cliente -->
                 <div class="mb-3">
                     <label for="cliente" style="font-family: Raleway; font-weight: 600; font-size: 16px">Cliente:</label>
                     <select class="form-control" id="cliente" name="cliente" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                         <?php echo $list_clientes; ?>
                     </select>
                 </div>
-
+                
+                <!-- campo cobrador -->
                 <div class="mb-3">
                     <label for="cobrador" style="font-family: Raleway; font-weight: 600; font-size: 16px">Cobrador:</label>
                     <select class="form-control" id="cobrador" name="cobrador" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                         <?php echo $list_cobradores; ?>
                     </select>
                 </div>
-                <!-- FIN DE CONSULTA A BD PARA ELECCIÓN DE CLIENTE Y COBRADOR  -->
-                <!-- CREAR UN FORM DEL TIPO POST Y AGREGAR INPUT PARA MONTO, TASA Y CUOTAS-->
+                
+                <!-- campo monto -->
                 <div class="mb-3">
-                    <label for="cobrador" style="font-family: Raleway; font-weight: 600; font-size: 16px">Monto (S/):</label>
+                    <label for="monto" style="font-family: Raleway; font-weight: 600; font-size: 16px">Monto (S/):</label>
                     <input type="text" class="form-control" id="monto" name="monto" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                 </div>
-
+                
+                <!-- campo tasa -->
                 <div class="mb-3">
-                    <label for="cobrador" style="font-family: Raleway; font-weight: 600; font-size: 16px">Tasa (%):</label>
+                    <label for="tasa" style="font-family: Raleway; font-weight: 600; font-size: 16px">Tasa (%):</label>
                     <input type="text" class="form-control" id="tasa" name="tasa" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                 </div>
 
+                <!-- campo cuotas -->
                 <div class="mb-3">
-                    <label for="cobrador" style="font-family: Raleway; font-weight: 600; font-size: 16px">Número de cuotas:</label>
+                    <label for="cuotas" style="font-family: Raleway; font-weight: 600; font-size: 16px">Número de cuotas:</label>
                     <input type="text" class="form-control" id="cuotas" name="cuotas" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                 </div>
 
                 <button onclick="closeDiv()" class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Aceptar</button>
             </div>
-
+    <!-- FIN DESPLEGAR EDITAR PRÉSTAMO -->            
 
         </div>
     </div>
 
-    <!--amortizar-->
+    <!--DESPLEGABLE AMORTIZAR-->
     <div class="struct" id="amortizar">
         <div class="prompt">
             <div style="text-align: end; margin: 0px 16px" onclick="closeDiveamor()">
@@ -215,49 +196,26 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Amortizar</p>
             <div class="container">
-                <!-- CONSULTAS A LA BASE DE DATOS PARA EXTRAER CLIENTES Y COBRADORES -->
-                <?php
-                $opciones_clientes = "SELECT cliente.id, cliente.nombre, cliente.apellido 
-                                            FROM cliente
-                                            ORDER BY cliente.nombre ASC";
-                $result_clientes = $db->query($opciones_clientes);
-
-                $opciones_cobrador = "SELECT cobrador.id, cobrador.nombre, cobrador.apellido
-                                          FROM cobrador
-                                          WHERE idUsuario = $userId
-                                          ORDER BY cobrador.nombre ASC";
-                $result_cobradores = $db->query($opciones_cobrador);
-
-                $list_clientes = '';
-                $list_cobradores = '';
-
-                while ($row = $result_clientes->fetch_assoc()) {
-                    $list_clientes .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . ' ' . $row['apellido'] . "</option>";
-                }
-
-                while ($row = $result_cobradores->fetch_assoc()) {
-                    $list_cobradores .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . ' ' . $row['apellido'] . "</option>";
-                }
-                ?>
-
+                
+                 <!-- campo cuotas -->
                 <div class="mb-3">
-                    <label for="cobrador" style="font-family: Raleway; font-weight: 600; font-size: 16px">Fecha</label>
-                    <input type="text" class="form-control" id="tasa" name="tasa" style="font-family: Raleway; font-weight: 600; font-size: 16px">
+                    <label for="fecha" style="font-family: Raleway; font-weight: 600; font-size: 16px">Fecha</label>
+                    <input type="text" class="form-control" id="fecha" name="fecha" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                 </div>
 
+                 <!-- campo cuotas -->
                 <div class="mb-3">
-                    <label for="cobrador" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresa el monto (S/):</label>
-                    <input type="text" class="form-control" id="cuotas" name="cuotas" style="font-family: Raleway; font-weight: 600; font-size: 16px">
+                    <label for="monto" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresa el monto (S/):</label>
+                    <input type="text" class="form-control" id="monto" name="monto" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                 </div>
 
                 <button onclick="closeDiv()" class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Aceptar</button>
             </div>
-
-
         </div>
     </div>
+    <!--FIN DE DESPLEGABLE AMORTIZAR-->
 
-
+    <!--INICIO NAVBAR-->            
         <header class="fixed-top d-flex align-items-center header-scrolled" style="background-color: white">
             <div class="container d-flex align-items-center justify-content-between">
                 <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
@@ -282,10 +240,10 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                 </nav>
             </div>
         </header>
-
+    <!--FIN NAVBAR-->    
+    
+    <!--INICIO TABLA DE INFORMACIÓN--> 
         <main id="main" class="d-flex align-items-center justify-content-center" style="margin-top: 112px; margin: 112px 10% 5% 10%;">
-
-
 
             <table class="table" style="table-layout: fixed; border-collapse: separate; border-spacing: 0 15px; max-width: 79.35%; min-width: 646px">
                 <thead class="thead-dark text-center" style="border: transparent; font-family: Raleway; font-size: 20px;font-weight: 600;color: #264653">
@@ -302,7 +260,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                 <?php
                 while ($row = $result -> fetch_assoc()){
                     echo "<tr class='text-center' style='background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>";
-                    echo "<td>" . $row['nombre'] .' '.$row['apellido']."</td>";
+                    echo "<td>" . $row['cliente_nombre'] .' '.$row['cliente_apellido']."</td>";
                     echo "<td>" . $row['cuotas'] . "</td>";
                     echo "<td>" . $row['monto'] . "</td>";
                     echo "<td>" . $row['fecha'] . "</td>";
@@ -320,7 +278,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                 </tbody>
             </table>
         </main>
-
+    <!--FIN TABLA DE INFORMACIÓN-->             
 
         <!-- Vendor JS Files -->
         <script src="./assets/vendor/purecounter/purecounter_vanilla.js"></script>
