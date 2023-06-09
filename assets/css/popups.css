@@ -27,3 +27,18 @@ td:last-child,
 th:last-child {
     border-radius: 0 10px 10px 0;
 }
+
+.mb-3 input{
+    font-family: Raleway; 
+    font-weight: 600; 
+    font-size: 16px
+}
+
+.struct .inputId input{
+    float: right;
+    text-align: right;
+    border: 1px solid seashell;
+    color: seashell;
+}
+
+
