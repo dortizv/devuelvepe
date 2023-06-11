@@ -46,12 +46,16 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
         $list_cobradores .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . ' ' . $row['apellido'] . "</option>";
     }
     //<!-- Fin de consulta a la BD para listado de clientes y cobradores  -->
+
+    // Cerrar la conexión
+    mysqli_close($db);
+?>
     ?>
     <!DOCTYPE html>
     <html lang="es">
     <head>
         <meta charset="utf-8">
-        <title>Login</title>
+        <title>Préstamos</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
         <!-- Google Fonts -->
@@ -117,25 +121,25 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                 <div class="mb-3">
                     <label for="montoPrestamo" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresa
                         el monto (S/):</label>
-                    <input type="number" class="form-control" id="montoPrestamo" name="montoPrestamo">
+                    <input type="number" class="form-control" id="montoPrestamo" name="montoPrestamo" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="tasaPrestamo" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresa la
                         tasa (%):</label>
-                    <input type="number" class="form-control" id="tasaPrestamo" name="tasaPrestamo">
+                    <input type="number" class="form-control" id="tasaPrestamo" name="tasaPrestamo" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="cuotasPrestamo" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresa
                         el número de cuotas:</label>
-                    <input type="text" class="form-control" id="cuotasPrestamo" name="cuotasPrestamo">
+                    <input type="text" class="form-control" id="cuotasPrestamo" name="cuotasPrestamo" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="fechaPrestamo" style="font-family: Raleway; font-weight: 600; font-size: 16px">Fecha del
                         préstamo</label>
-                    <input type="date" class="form-control" id="fechaPrestamo" name="fechaPrestamo">
+                    <input type="date" class="form-control" id="fechaPrestamo" name="fechaPrestamo" required>
                 </div>
 
                 <button type="submit" class="mx-1 my-1"

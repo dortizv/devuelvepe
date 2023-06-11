@@ -44,7 +44,7 @@
 
             <div class="row align-content-center justify-content-center">
                 <div class="col-md-4 col-sm-12 mb-3 m-auto justify-content-center">
-                    <input type="text" class="form-control" name="numerodocumento" placeholder="Documento de identidad"  required>
+                    <input type="text" class="form-control" name="numerodocumento" placeholder="Documento de identidad"  pattern="^[0-9]{8}$" required>
                 </div>
 
                 <div class="col-md-4 col-sm-12 mb-3 m-auto">

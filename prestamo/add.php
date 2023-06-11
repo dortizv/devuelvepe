@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $montoPrestamo = intval($_POST['montoPrestamo']);
     $tasaPrestamo = intval($_POST['tasaPrestamo']);
     $cuotasPrestamo = intval($_POST['cuotasPrestamo']);
-    $fechaPrestamo = DateTime::createFromFormat('Y-m-d', $_POST['fechaPrestamo'])->format('Y-m-d');
+    $fechaPrestamo = $_POST['fechaPrestamo'];
 
     // INSERTAR LA INFORMACIÓN EN LA BASE DE DATOS
 
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("iiiiis", $clientePrestamo, $cobradorPrestamo, $montoPrestamo, $tasaPrestamo, $cuotasPrestamo, $fechaPrestamo);
     $stmt->execute();
 
-    // Comprueba si la consulta se ejecutó correctamente
+    // Comprueba si la inserción se ejecutó correctamente
     if ($stmt->affected_rows > 0) {
         echo "El préstamo se agregó.";
         header("Location: ./../prestamos.php");

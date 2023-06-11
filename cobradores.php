@@ -23,14 +23,14 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
 
     //$row = $result -> fetch_assoc();
-    //var_dump($row);
+    //var_dump($_SESSION['idUsuario']);
     //die();
     ?>
 <!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="utf-8">
-        <title>Login</title>
+        <title>Cobradores</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
         <!-- Google Fonts -->
@@ -52,7 +52,8 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
     </head>
     <body style="min-width: 560px">
-        <header class="fixed-top d-flex align-items-center header-scrolled" style="background-color: white">
+    <!-- ========== INICIO DE NAVBAR ========== -->
+    <header class="fixed-top d-flex align-items-center header-scrolled" style="background-color: white">
             <div class="container d-flex align-items-center justify-content-between">
                 <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
                     <img class="m-3" src="assets/icons/collaborator.png" width="80px">
@@ -76,56 +77,38 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                 </nav>
             </div>
         </header>
-
+    <!-- ========== FIN DE NAVBAR ========== -->
         <main id="main" class="d-flex align-items-center" style="margin-top: 112px; margin: 112px 10% 5% 10%;">
-
+            <!-- ========== INICIO POP-UP NUEVO COBRADOR ========== -->
             <div class="struct" id="nuevopres">
                 <div class="prompt">
-                    <p>HOLA</p>
-                    <div class="container">
-                        <p>HOLA DE NUEVO</p>
-                    
-                    <!-- CONSULTAS A LA BASE DE DATOS PARA EXTRAER CLIENTES Y COBRADORES -->
-                    <?php
-                    $opciones_clientes = "SELECT cliente.id, cliente.nombre, cliente.apellido 
-                                            FROM cliente
-                                            ORDER BY cliente.nombre ASC";
-                    $result_clientes = $db->query($opciones_clientes);
+                    <form class="container" method="POST" action="./cobrador/addCobrador.php">
 
-                    $opciones_cobrador = "SELECT cobrador.id, cobrador.nombre, cobrador.apellido
-                                          FROM cobrador
-                                          WHERE idUsuario = $userId
-                                          ORDER BY cobrador.nombre ASC";
-                    $result_cobradores = $db->query($opciones_cobrador);
+                    <input type="hidden" name="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
 
-                    $list_clientes = '';
-                    $list_cobradores = '';
+                    <label for="nombreCobradorAdd">Nombre:</label>
+                        <input type="text" class="form-control" id="nombreCobradorAdd" name="nombreCobradorAdd" required
+                        style="font-family: Raleway; font-weight: 600; font-size: 16px">
 
-                    while ($row = $result_clientes->fetch_assoc()) {
-                        $list_clientes .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . ' ' . $row['apellido'] . "</option>";
-                    }
+                    <label for="apellidoCobradorAdd">Apellido:</label>
+                        <input type="text" class="form-control" id="apellidoCobradorAdd" name="apellidoCobradorAdd" required
+                            style="font-family: Raleway; font-weight: 600; font-size: 16px">
 
-                    while ($row = $result_cobradores->fetch_assoc()) {
-                        $list_cobradores .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . ' ' . $row['apellido'] . "</option>";
-                    }
-                    ?>
+                    <label for="dniCobradorAdd">DNI:</label>
+                        <input type="text" class="form-control" id="dniCobradorAdd" name="dniCobradorAdd" maxlength="8" pattern="^[0-9]{8}$" required
+                           style="font-family: Raleway; font-weight: 600; font-size: 16px">
 
-                    <label for="cliente">Selecciona un cliente:</label>
-                    <select class="form-control" id="cliente" name="cliente">
-                        <?php echo $list_clientes; ?>
-                    </select>
-
-                    <label for="cobrador">Selecciona un cobrador:</label>
-                    <select class="form-control" id="cobrador" name="cobrador">
-                        <?php echo $list_cobradores; ?>
-                    </select>
-
-                    <!-- FIN DE CONSULTA A BD PARA ELECCIÓN DE CLIENTE Y COBRADOR  -->
-                    </div>
-                    <button onclick="closeDiv()">Cerrar</button>
-
-                    <!-- CREAR UN FORM DEL TIPO POST Y AGREGAR INPUT PARA MONTO, TASA Y CUOTAS-->
+                    <label for="telefonoCobradorAdd">Teléfono:</label>
+                    <input type="text" class="form-control" id="telefonoCobradorAdd" name="telefonoCobradorAdd" maxlength="9" pattern="^[0-9]{9}$" required
+                           style="font-family: Raleway; font-weight: 600; font-size: 16px">
+                        <button class="mx-1 my-1"
+                                style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px"
+                                type="submit">Aceptar
+                        </button>
+                        <button onclick="closeDiv()">Cerrar</button>
+                    </form>
                 </div>
+                <!-- ========== INICIO POP-UP NUEVO COBRADOR ========== -->
             </div>
 
             <table class="table" style="border-collapse: separate; border-spacing: 0">
