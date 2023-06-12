@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES (null, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $db->prepare($sql);
-    $stmt->bind_param("iiiiis", $clientePrestamo, $cobradorPrestamo, $montoPrestamo, $tasaPrestamo, $cuotasPrestamo, $fechaPrestamo);
+    $stmt->bind_param("iiiiis", $cobradorPrestamo, $clientePrestamo, $montoPrestamo, $tasaPrestamo, $cuotasPrestamo, $fechaPrestamo);
     $stmt->execute();
 
     // Comprueba si la inserción se ejecutó correctamente

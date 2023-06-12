@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Comprueba si la inserción se ejecutó correctamente
     if ($stmt->affected_rows > 0) {
         $_SESSION['success_add_client'] = "El cliente".$nombreAdd." ".$apellidoAdd."se agregó correctamente.";
-        header("Location: ./../prestamos.php");
+        header("Location: ./../clientes.php");
     } else {
         echo "No se agregó el préstamo" . $db->error;
     }
