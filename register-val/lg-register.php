@@ -2,7 +2,7 @@
 include_once("db.php");
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
+    session_start();
     //EXTRAER VALORES DEL REGISTER
     $name=strtoupper($_POST['nombre']);
     $lastname=strtoupper($_POST['apellido']);
@@ -17,7 +17,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email=strtoupper($_POST['email']);
     $username=$_POST['username'];
     $pass = $_POST["pass"];
+    $confirmpass = $_POST["confirmpass"];
 
+    // Verificar si las contraseñas son iguales
+    if ($pass != $confirmpass) {
+        $_SESSION['error_message'] = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
+        header("Location: ./../register.php");
+        exit;
+    }
      //CIFRAR CONTRASEÑA
      $pass_segura = password_hash($pass, PASSWORD_BCRYPT, ['cost' => 4]);
 

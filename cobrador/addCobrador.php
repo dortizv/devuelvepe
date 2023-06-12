@@ -1,6 +1,7 @@
 <?php
 include_once("./../register-val/db.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    session_start();
     //EXTRAER VALORES PARA AÑADIR CLIENTE
     $idUsuario = intval($_POST['idUsuario']);
     $nombreCobradorAdd = strtoupper($_POST['nombreCobradorAdd']);
@@ -24,10 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Comprueba si la inserción se ejecutó correctamente
     if ($stmt->affected_rows > 0) {
-        $_SESSION['success_add_cobrador'] = "El cliente".$nombreCobradorAdd." ".$apellidoCobradorAdd."se agregó correctamente.";
-        header("Location: ./../prestamos.php");
+        $_SESSION['successMessage'] = "Se agregó correctamente al cobrador ".$nombreCobradorAdd." ".$apellidoCobradorAdd;
+        header("Location: ./../main.php");
+        exit();
     } else {
         echo "No se agregó el préstamo" . $db->error;
+        exit();
     }
 }
 ?>

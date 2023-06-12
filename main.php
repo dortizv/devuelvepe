@@ -1,6 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -37,16 +38,28 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
     </div>
     <div class="row justify-content-center" id="contenedor">
+        <!-- Se creó un nuevo cliente? -->
+        <?php if(isset($_SESSION['successMessage'])): ?>
+            <div class="container mt-1">
+                <div class="alert alert-success">
+                    <?php echo $_SESSION['successMessage']; ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <?php unset($_SESSION['successMessage']); ?>
+        <?php endif; ?>
 
         <div class="col" id="cont-central">
             <div class="row my-1">
                 <p class="font-custom text-center p-0 mb-4" style="font-size: 1.5rem">
                 <!-- MOSTRAR NOMBRE DE USUARIO --> 
                 <?php echo isset($_SESSION['nombreUsuario']) ? '¡ Hola '.$_SESSION['nombreUsuario'].' !' : " ERROR DE SESIÓN"; ?>
-                <!-- FIN MOSTRAR NOMBRE DE USUARIO --> 
                 </p>
             </div>
-            
+
+            <!-- Boton Clientes -->
             <div class="row d-flex justify-content-center">
                 <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                     <div class="figure align-middle">
@@ -56,7 +69,8 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                         <p class="mt-3 mb-3 font-custom">Clientes</p>
                     </div>
                 </div>
-            
+
+           <!-- Boton Cobradores -->
             <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                 <div class="figure align-middle">
                     <a class="align-content-center" type="image" href="./cobradores.php">
@@ -65,7 +79,8 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                         <p class="mt-3 mb-3 font-custom">Cobradores</p>
                 </div>
             </div>
-            
+
+            <!-- Boton Cobranza de préstamos -->
             <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                 <div class="figure align-middle">
                     <a class="align-content-center" type="image" href="">
@@ -74,7 +89,8 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                     <p class="mt-3 mb-3 font-custom">Cobranza de préstamos</p>
                 </div>
             </div>
-                
+
+            <!-- Boton Préstamos -->
             <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                 <div class="figure align-middle">
                     <a class="align-content-center" type="image" href="./prestamos.php">
@@ -83,6 +99,8 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                     <p class="mt-3 mb-3 font-custom">Préstamos</p>
                 </div>
             </div>
+
+           <!-- Botón Historial -->
             <div href="" class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                 <div class="figure align-middle">
                     <a class="align-content-center" type="image" href="">
@@ -91,6 +109,8 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                     <p class="mt-3 mb-3 font-custom">Historial</p>
                 </div>
             </div>
+
+            <!--Botón Reportes -->
             <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                 <div class="figure align-middle">
                     <a class="align-content-center" type="image" href="">
@@ -99,6 +119,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                     <p class="mt-3 mb-3 font-custom">Reportes</p>
                 </div>
             </div>
+            <!-- Botón Salir (Cerrar sesión) -->
             <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                 <div class="figure align-middle">
                     <a class="align-content-center" type="image" href="./logout.php">
@@ -124,7 +145,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                 </div>
                 <div class="col-auto">
                     <p>Nosotros</p>
-                    <p>Preguntas y respuetas frecuentes</p>
+                    <p>Preguntas y respuestas frecuentes</p>
                 </div>
             </div>
             <div class="row">
@@ -155,7 +176,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
 </html>
 
-<?php  
+<?php
 }else{
     header("Location:./login.php");
     exit;

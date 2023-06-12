@@ -36,13 +36,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Fallo en Inicio de sesión
         } else {
             $_SESSION['error_message'] = "Credenciales inválidas. Por favor, intente nuevamente.";
-            header("Location: ../login.php");
+            header("Location: ./../login.php");
             exit;
         }
     } else {
         // Credenciales inválidas
         $_SESSION['error_message'] = "Credenciales inválidas. Por favor, intente nuevamente.";
-        header("Location: ../login.php");
+        header("Location: ./../login.php");
         exit;
     }
 

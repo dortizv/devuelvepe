@@ -28,6 +28,17 @@
 </head>
 
 <body class="my-5 contact h-100" style="min-width: 460px">
+    <?php
+    session_start();
+    // Verificar si hay error por contraseñas incorrectas
+    if (isset($_SESSION['error_message'])) {
+        // Mostrar el mensaje de error
+        echo $_SESSION['error_message'];
+
+        // Limpiar el mensaje de error de la variable de sesión
+        unset($_SESSION['error_message']);
+    }
+    ?>
     <div style="background-color: #2A9D8F; color: white;" class="container-fluid align-content-center justify-content-center px-4 php-email-form m-auto" id="container-sign-up">
         <div class="section-title">
             <h2 class="text-white text-center pt-4">Crear una cuenta</h2>

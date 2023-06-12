@@ -8,7 +8,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     $userId = $_SESSION['idUsuario'];
 
     $db = connect_db();
-
+    //Consulta a la BD para extraer los préstamos que le corresponden a un usuario
     $sql = "SELECT prestamo.id AS id_prestamo, cliente.nombre AS cliente_nombre, cliente.apellido AS cliente_apellido, cobrador.nombre AS cobrador_nombre, cobrador.apellido AS cobrador_apellido, prestamo.monto, prestamo.cuotas, prestamo.tasa, prestamo.fecha 
                 FROM prestamo 
                 INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
@@ -23,7 +23,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     $result = $stmt->get_result();
 
 
-    //<!--Consulta a la BD para extraer listado de clientes y cobradores -->
+    //Consulta a la BD para extraer listado de clientes y cobradores
     $opciones_clientes = "SELECT cliente.id, cliente.nombre, cliente.apellido 
                         FROM cliente
                         ORDER BY cliente.nombre ASC";
@@ -45,7 +45,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     while ($row = $result_cobradores->fetch_assoc()) {
         $list_cobradores .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . ' ' . $row['apellido'] . "</option>";
     }
-    //<!-- Fin de consulta a la BD para listado de clientes y cobradores  -->
+    //Fin de consulta a la BD para listado de clientes y cobradores
 
     // Cerrar la conexión
     mysqli_close($db);
@@ -84,7 +84,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     </head>
     <body style="min-width: 770px">
 
-    <!-- NUEVO PRÉSTAMO -->
+    <!-- =============== NUEVO PRÉSTAMO  ===============-->
     <div class="struct" id="nuevopres">
         <div class="prompt">
             <div style="text-align: end; margin: 0px 16px" onclick="closeDiv()">
@@ -148,9 +148,9 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
             </form>
         </div>
     </div>
-    <!-- FIN NUEVO PRÉSTAMO -->
+    <!-- =============== NUEVO PRÉSTAMO  ===============-->
 
-    <!-- DESPLEGABLE EDITAR PRÉSTAMO -->
+    <!-- =============== DESPLEGABLE EDITAR PRÉSTAMO  =============== -->
     <div class="struct" id="editar">
         <div class="prompt">
             <div style="text-align: end; margin: 0px 16px" onclick="closeDiveditar()">
@@ -219,9 +219,9 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
             </div>
         </div>
     </div>
-    <!-- FIN DESPLEGAR EDITAR PRÉSTAMO -->
+    <!-- =============== FIN DESPLEGABLE EDITAR PRÉSTAMO  =============== -->
 
-    <!--DESPLEGABLE AMORTIZAR-->
+    <!-- =============== DESPLEGABLE AMORTIZAR (AÚN SIN FUNCIONAR) =============== -->
     <div class="struct" id="amortizar">
         <div class="prompt">
             <div style="text-align: end; margin: 0px 16px" onclick="closeDiveamor()">
@@ -259,9 +259,9 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
             </div>
         </div>
     </div>
-    <!--FIN DE DESPLEGABLE AMORTIZAR-->
+    <!-- =============== FIN DESPLEGABLE AMORTIZAR  =============== -->
 
-    <!--INICIO NAVBAR-->
+    <!-- =============== NAVBAR  =============== -->
     <header class="fixed-top d-flex align-items-center header-scrolled" style="background-color: white">
         <div class="container d-flex align-items-center justify-content-between">
             <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
@@ -289,9 +289,9 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
             </nav>
         </div>
     </header>
-    <!--FIN NAVBAR-->
+     <!-- =============== FIN NAVBAR =============== -->
 
-    <!--INICIO TABLA DE INFORMACIÓN-->
+    <!-- =============== INICIO TABLA DE INFORMACIÓN =============== -->
     <main id="main" class="d-flex align-items-center justify-content-center"
           style="margin-top: 112px; margin: 112px 10% 5% 10%;">
 
@@ -342,7 +342,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
             </tbody>
         </table>
     </main>
-    <!--FIN TABLA DE INFORMACIÓN-->
+    <!-- =============== FIN TABLA DE INFORMACIÓN =============== -->
 
     <!-- Vendor JS Files -->
     <script src="./assets/vendor/purecounter/purecounter_vanilla.js"></script>
@@ -385,7 +385,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     <?php
 //FIN DE VALIDACIÓN
 } else {
-    header("Location:./../login.php");
+    header("Location:./login.php");
     exit;
 }
 ?>

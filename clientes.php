@@ -9,11 +9,9 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
     $db = connect_db();
 
-    $sql = "SELECT DISTINCT prestamo.idCliente, cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
+    $sql = "SELECT DISTINCT cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
             FROM cliente 
-            INNER JOIN prestamo ON prestamo.idCliente = cliente.id
-            INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
-            WHERE cobrador.idUsuario = ?";
+            WHERE cliente.idUsuario = ?";
 
 
     $stmt = $db->prepare($sql);
@@ -68,6 +66,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Nuevo cliente</p>
             <form class="container" method="POST" action="./cliente/addCliente.php">
+                <input type="hidden" name="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
                 <div class="row p-0 m-0">
                     <div class="col-6 mb-3">
                         <label for="nombreAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar nombre:</label>
