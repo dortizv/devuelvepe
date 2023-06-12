@@ -50,91 +50,113 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
         <link href="./assets/css/popups.css" rel="stylesheet">
         <script src="./assets/js/popup.js"></script>
 
+        <!--FUENTES-->
+        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+
     </head>
     <body style="min-width: 560px">
-    <!-- ========== INICIO DE NAVBAR ========== -->
-    <header class="fixed-top d-flex align-items-center header-scrolled" style="background-color: white">
+    <!-- ========== INICIO POP-UP NUEVO COBRADOR ========== -->
+        <div class="struct" id="nuevopres">
+            <div class="prompt">
+
+                <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Nuevo cobrador</p>
+
+                <form class="container" method="POST" action="./cobrador/addCobrador.php">
+
+                    <input type="hidden" name="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
+
+                    <label for="nombreCobradorAdd">Nombre:</label>
+                    <input type="text" class="form-control mb-3" id="nombreCobradorAdd" name="nombreCobradorAdd" required
+                           style="font-family: Raleway; font-weight: 600; font-size: 16px">
+
+                    <label for="apellidoCobradorAdd">Apellido:</label>
+                    <input type="text" class="form-control mb-3" id="apellidoCobradorAdd" name="apellidoCobradorAdd" required
+                           style="font-family: Raleway; font-weight: 600; font-size: 16px">
+
+                    <label for="dniCobradorAdd">DNI:</label>
+                    <input type="text" class="form-control mb-3" id="dniCobradorAdd" name="dniCobradorAdd" maxlength="8" pattern="^[0-9]{8}$" required
+                           style="font-family: Raleway; font-weight: 600; font-size: 16px">
+
+                    <label for="telefonoCobradorAdd">Teléfono:</label>
+                    <input type="text" class="form-control mb-3" id="telefonoCobradorAdd" name="telefonoCobradorAdd" maxlength="9" pattern="^[0-9]{9}$" required
+                           style="font-family: Raleway; font-weight: 600; font-size: 16px">
+                    <button class="mx-1 my-1"  style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px"  type="submit">Aceptar</button>
+                    <button onclick="closeDiv()" class="mx-1 my-1"  style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: slategray; color: white; font-family: Raleway; font-weight: 600; font-size: 14px"  type="submit">Cerrar</button>
+                </form>
+            </div>
+        </div>
+    <!-- ========== FIN POP-UP NUEVO COBRADOR ========== -->
+
+        <!-- ========== INICIO DE NAVBAR ========== -->
+        <header class="fixed-top d-flex align-items-center header-scrolled" style="background-color: white">
             <div class="container d-flex align-items-center justify-content-between">
                 <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
                     <img class="m-3" src="assets/icons/collaborator.png" width="80px">
-                    <p class="m-0 px-2">Cobradores</p>
+                    <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">Cobradores</p>
                 </div>
+
+                <?php //COMPROBAR SI SE AGREGÓ UN CLIENTE NUEVO
+                // Verificar si hay un mensaje de error en la variable de sesión
+                if (isset($_SESSION['success_add_cobrador'])) {
+                    // Mostrar el mensaje de error
+                    echo '<div class="section-title" data-aos="fade-up">';
+                    echo '<h3 style="border: solid 2px darkcyan; border-radius: 10rem; font-size: 1.2rem; padding: 0.3rem 0.3rem">'.$_SESSION["success_add_cobrador"].'</h3>';
+                    echo ' </div>';
+                    // Limpiar el mensaje de error de la variable de sesión
+                    unset($_SESSION['success_add_cobrador']);
+                }
+                ?>
                 <nav class="navbar" id="navbar">
                     <ul class="row justify-content-center align-items-center contact text-black" style="font-weight: bold">
-                        <li class= "col-auto justify-content-center align-items-center d-flex">
-                            <img class="col-auto"  src="assets/icons/cube.png" style="height: 40px">
-                            <a href="./main.php" class="col-auto m-0 p-0 px-2 text-black" style="font-weight: bold">Inicio</a>
+                        <li class="col-auto justify-content-center align-items-center d-flex">
+                            <img class="col-auto" src="assets/icons/cube.png" style="height: 40px">
+                            <a href="./main.php" class="col-auto m-0 p-0 px-2 text-black"
+                               style="font-family: Raleway; font-weight: 600; font-size: 20px">Inicio</a>
                         </li>
                         <li class="col-auto php-email-form" style="min-width: 190px">
-                            <input type="text" class="form-control" name="buscar" placeholder="Buscar"  required>
+                            <input type="text" class="form-control" name="buscar" placeholder="Buscar" required>
                         </li class="col-6">
-                        <li onclick="openDiv()" class="col-auto justify-content-center align-items-center d-flex" style="cursor: pointer">
-                            <img class="col-auto"  src="assets/icons/add.png" style="height: 40px">
-                            <a class="col-auto m-0 p-0 px-2 text-black" style="font-weight: bold">Nuevo cobrador</a>
+                        <li onclick="openDiv()" class="col-auto justify-content-center align-items-center d-flex"
+                            style="cursor: pointer">
+                            <img class="col-auto" src="assets/icons/add.png" style="height: 40px">
+                            <a class="col-auto m-0 p-0 px-2 text-black"
+                               style="font-family: Raleway; font-weight: 600; font-size: 20px">Nuevo cobrador</a>
                         </li>
                     </ul>
                     <i class="bi bi-list mobile-nav-toggle"></i>
                 </nav>
             </div>
         </header>
-    <!-- ========== FIN DE NAVBAR ========== -->
-        <main id="main" class="d-flex align-items-center" style="margin-top: 112px; margin: 112px 10% 5% 10%;">
-            <!-- ========== INICIO POP-UP NUEVO COBRADOR ========== -->
-            <div class="struct" id="nuevopres">
-                <div class="prompt">
-                    <form class="container" method="POST" action="./cobrador/addCobrador.php">
-
-                    <input type="hidden" name="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
-
-                    <label for="nombreCobradorAdd">Nombre:</label>
-                        <input type="text" class="form-control" id="nombreCobradorAdd" name="nombreCobradorAdd" required
-                        style="font-family: Raleway; font-weight: 600; font-size: 16px">
-
-                    <label for="apellidoCobradorAdd">Apellido:</label>
-                        <input type="text" class="form-control" id="apellidoCobradorAdd" name="apellidoCobradorAdd" required
-                            style="font-family: Raleway; font-weight: 600; font-size: 16px">
-
-                    <label for="dniCobradorAdd">DNI:</label>
-                        <input type="text" class="form-control" id="dniCobradorAdd" name="dniCobradorAdd" maxlength="8" pattern="^[0-9]{8}$" required
-                           style="font-family: Raleway; font-weight: 600; font-size: 16px">
-
-                    <label for="telefonoCobradorAdd">Teléfono:</label>
-                    <input type="text" class="form-control" id="telefonoCobradorAdd" name="telefonoCobradorAdd" maxlength="9" pattern="^[0-9]{9}$" required
-                           style="font-family: Raleway; font-weight: 600; font-size: 16px">
-                        <button class="mx-1 my-1"
-                                style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px"
-                                type="submit">Aceptar
-                        </button>
-                        <button onclick="closeDiv()">Cerrar</button>
-                    </form>
-                </div>
-                <!-- ========== INICIO POP-UP NUEVO COBRADOR ========== -->
-            </div>
-
-            <table class="table" style="border-collapse: separate; border-spacing: 0">
-                <thead class="thead-dark text-center" style="border: transparent">
+        <!-- ========== FIN DE NAVBAR ========== -->
+        <main id="main" class="d-flex align-items-center justify-content-center"
+              style="margin-top: 112px; margin: 112px 10% 5% 10%;">
+            <table class="table"
+                   style="table-layout: fixed; border-collapse: separate; border-spacing: 0 15px; max-width: 79.35%; min-width: 646px">
+                <thead class="thead-dark text-center"
+                       style="border: transparent; font-family: Raleway; font-size: 20px;font-weight: 600;color: #264653">
                 <tr>
                     <th scope="col">Colaborador</th>
                     <th scope="col">DNI</th>
                     <th scope="col">Clientes a cargo</th>
                     <th scope="col">Clientes con deuda</th>
-                    <th scope="col">Botones</th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody class="align-middle justify-content-center">
                 <?php
 
                 while ($row = $result -> fetch_assoc()){
-                    echo "<tr class='text-center' style='background-color: #FBF4EE; border: transparent;'>";
-                    echo "<td>" . strtoupper($row['nombre']) .' '.strtoupper($row['apellido'])."</td>";
-                    echo "<td>" . $row['dni'] . "</td>";
-                    echo "<td>" . $row['cantidad_prestamos'] . "</td>";
-                    echo "<td>" . $row['cantidad_prestamos'] . "</td>"; ; //FALTA PONER LA LÓGICA PARA DETERMINAR SI HAY CLIENTES MOROSOS (Parece que se debe crear un campo en la tabla 'prestamo')
-                    echo '<td class="contact">
-                            <div class="php-email-form">
-                                <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px" type="submit">Ver</button>
-                            </div>
-                          </td>';
+                    echo "<tr class='text-center' style='color: white ;background-color: #264653; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px;'>";
+                        echo "<td>" . strtoupper($row['nombre']) .' '.strtoupper($row['apellido'])."</td>";
+                        echo "<td>" . $row['dni'] . "</td>";
+                        echo "<td>" . $row['cantidad_prestamos'] . "</td>";
+                        echo "<td>" . $row['cantidad_prestamos'] . "</td>"; ; //FALTA PONER LA LÓGICA PARA DETERMINAR SI HAY CLIENTES MOROSOS (Parece que se debe crear un campo en la tabla 'prestamo')
+                        echo '<td class="contact">
+                                <div class="php-email-form">
+                                    <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #E9C46A; color: black; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Ver</button>
+                                </div>
+                              </td>';
                     echo "</tr>";
                 }
 
