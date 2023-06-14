@@ -123,7 +123,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">¿Seguro que quieres borrar el préstamo?</p>
             <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Aceptar</button>
 
-            <button onclick="closeDivDelete()" class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: slategray; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Cancelar</button>
+            <button onclick="closeDivdelete()" class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: slategray; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Cancelar</button>
 
 
         </div>
@@ -169,6 +169,19 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     </header>
     <!-- ======== FIN NAV BAR ========== -->
 
+    <!-- INICIO Script para eliminar prestamo -->
+    <script>
+        function openDivdelete(){
+            let get=document.querySelector('#eliminar')
+            get.style.display = 'block'
+        }
+
+        function closeDivdelete(){
+            let get = document.querySelector('#eliminar')
+            get.style.display = 'none'
+        }
+    </script>
+    <!-- FIN Script para eliminar prestamo -->
 
     <main id="main" class="d-flex align-items-center justify-content-center"  style="margin-top: 112px; margin: 112px 10% 5% 10%;">
         <table class="table" style="table-layout: fixed; border-collapse: separate; border-spacing: 0 15px; max-width: 79.35%; min-width: 646px">
@@ -193,7 +206,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                         <a href="verprestamocliente.php">
                             <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Ver</button>
                         </a>
-                        <button type="submit" onclick="openDivDelete()" class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #a52834; color: white; font-family: Raleway; font-weight: 600; font-size: 14px">Eliminar</button>
+                        <button type="submit" onclick="openDivdelete()" class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #a52834; color: white; font-family: Raleway; font-weight: 600; font-size: 14px">Eliminar</button>
 
                     </div>
                 </td>

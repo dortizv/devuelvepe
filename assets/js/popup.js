@@ -28,12 +28,12 @@ function closeDiveamor(){
     get.style.display = 'none'
 }
 
-function openDivDelete(){
+function openDivdelete(){
     let get=document.querySelector('#eliminar')
     get.style.display = 'block'
 }
 
-function closeDivDelete(){
+function closeDivdelete(){
     let get = document.querySelector('#eliminar')
     get.style.display = 'none'
 }
