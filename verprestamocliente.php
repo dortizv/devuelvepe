@@ -9,9 +9,11 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
     $db = connect_db();
 
-    $sql = "SELECT DISTINCT cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
+    $sql = "SELECT DISTINCT prestamo.idCliente, cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
             FROM cliente 
-            WHERE cliente.idUsuario = ?";
+            INNER JOIN prestamo ON prestamo.idCliente = cliente.id
+            INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
+            WHERE cobrador.idUsuario = ?";
 
 
     $stmt = $db->prepare($sql);
@@ -52,21 +54,20 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     </head>
     <body style="min-width: 770px">
 
-    <!-- ============== POP-UP CREACIÓN DE NUEVO CLIENTE ============== -->
+    <!-- ============== POP-UP EDICIÓN DE CLIENTE ============== -->
     <div class="struct" id="nuevopres">
         <div class="prompt">
 
-            <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Nuevo cliente</p>
+            <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Editar cliente</p>
             <form class="container" method="POST" action="./cliente/addCliente.php">
-                <input type="hidden" name="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
                 <div class="row p-0 m-0">
                     <div class="col-6 mb-3">
-                        <label for="nombreAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar nombre:</label>
+                        <label for="nombreAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Nombre:</label>
                         <input type="text" class="form-control" id="nombreAdd" name="nombreAdd" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
                     <div class="col-6 mb-3">
-                        <label for="apellidoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar apellido:</label>
+                        <label for="apellidoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Apellido:</label>
                         <input type="text" class="form-control" id="apellidoAdd" name="apellidoAdd" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
@@ -74,7 +75,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
                 <div class="row p-0 m-0 align-content-center justify-content-center">
                     <div class="col-7 mb-3">
-                        <label for="documentoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar documento de identidad:</label>
+                        <label for="documentoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Documento de identidad:</label>
                         <input type="text" class="form-control" id="documentoAdd" name="documentoAdd" maxlength="8" pattern="^[0-9]{8}$" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
@@ -87,11 +88,11 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                     </div>
                     <div class="row p-0 m-0">
                         <div class="col-6 mb-3">
-                            <label for="direccionAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar dirección:</label>
+                            <label for="direccionAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Dirección:</label>
                             <input type="text" class="form-control" id="direccionAdd" name="direccionAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                         </div>
                         <div class="col-6 mb-3">
-                            <label for="telefonoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar teléfono:</label>
+                            <label for="telefonoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Teléfono:</label>
                             <input type="text" class="form-control" id="telefonoAdd" name="telefonoAdd" maxlength="9" pattern="^[0-9]{9}$"
                                    pattern="^[0-9]{9}$" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                         </div>
@@ -121,20 +122,16 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
         <div class="container d-flex align-items-center justify-content-between">
             <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
                 <img class="m-3" src="assets/icons/client.png" width="80px">
-                <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">Clientes</p>
+                <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">NOMBRE APELLIDO</p>
+                <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway; font-size: 15px">
+                    <p class="my-3 p-0">Tasa: x%</p>
+                    <p class="mb-3 p-0">Periodos: N</p>
+                    <p class="mb-3 p-0">Monto prestado: S/xxxx.xx</p>
+                </div>
             </div>
 
-            <?php //COMPROBAR SI SE AGREGÓ UN CLIENTE NUEVO
-            // Verificar si hay un mensaje de error en la variable de sesión
-            if (isset($_SESSION['success_add_client'])) {
-                // Mostrar el mensaje de error
-                echo '<div class="section-title" data-aos="fade-up">';
-                echo '<h3 style="border: solid 2px darkcyan; border-radius: 10rem; font-size: 1.2rem; padding: 0.3rem 0.3rem">'.$_SESSION["success_add_client"].'</h3>';
-                echo ' </div>';
-                // Limpiar el mensaje de error de la variable de sesión
-                unset($_SESSION['success_add_client']);
-            }
-            ?>
+            <!-- COPROBAR EDICIÓN DE CLIENTE -->
+
             <nav class="navbar" id="navbar">
                 <ul class="row justify-content-center align-items-center contact text-black" style="font-weight: bold">
                     <li class="col-auto justify-content-center align-items-center d-flex">
@@ -147,9 +144,9 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                     </li class="col-6">
                     <li onclick="openDiv()" class="col-auto justify-content-center align-items-center d-flex"
                         style="cursor: pointer">
-                        <img class="col-auto" src="assets/icons/add.png" style="height: 40px">
+                        <img class="col-auto" src="assets/icons/modify.png" style="height: 40px">
                         <a class="col-auto m-0 p-0 px-2 text-black"
-                           style="font-family: Raleway; font-weight: 600; font-size: 20px">Nuevo cliente</a>
+                           style="font-family: Raleway; font-weight: 600; font-size: 20px">Modificar datos</a>
                     </li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
@@ -157,42 +154,70 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
         </div>
     </header>
     <!-- ======== FIN NAV BAR ========== -->
-
-
-    <main id="main" class="d-flex align-items-center justify-content-center"
-          style="margin-top: 112px; margin: 112px 10% 5% 10%;">
+    <main id="main" class="d-flex align-items-center justify-content-center" style="margin-top: 112px; margin: 112px 10% 5% 10%;">
         <table class="table"
                style="table-layout: fixed; border-collapse: separate; border-spacing: 0 15px; max-width: 79.35%; min-width: 646px">
             <thead class="thead-dark text-center"
                    style="border: transparent; font-family: Raleway; font-size: 20px;font-weight: 600;color: #264653">
-            <tr>
-                <th scope="col">Clientes</th>
-                <th scope="col">Documento</th>
-                <th scope="col">N° Documento</th>
-                <th scope="col">Estado</th>
-                <th scope="col"></th>
-            </tr>
+                <tr>
+                    <th scope="col">Periodo</th>
+                    <th scope="col">Amortización (S/)</th>
+                    <th scope="col">Interés (S/)</th>
+                    <th scope="col">Cuota (S/)</th>
+                    <th scope="col">Vence</th>
+                    <th scope="col"></th>
+                </tr>
             </thead>
             <tbody class="align-middle justify-content-center">
+                <tr class='text-center' style='color: white ;background-color: #264653; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>
+                    <td>1</td>
+                    <td>211.62</td>
+                    <td>33.73</td>
+                    <td>245.35</td>
+                    <td>30/03/2023</td>
+                    <td class="contact">
+                        <div class="php-email-form">
+                            <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Pagado</button>
+                        </div>
+                    </td>
+
+                </tr>
+
+                <tr class='text-center' style='color: white ;background-color: #264653; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>
+                    <td>2</td>
+                    <td>211.62</td>
+                    <td>33.73</td>
+                    <td>245.35</td>
+                    <td>30/04/2023</td>
+                    <td class="contact">
+                        <div class="php-email-form">
+                            <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Pagado</button>
+                        </div>
+                    </td>
+
+                </tr>
+
+            <!-- Lógica de listado de prestamos-->
+
+            <!--
             <?php
 
             while ($row = $result->fetch_assoc()) {
-                echo "<tr class='text-center' style='color: white ;background-color: #264653; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>";
+                echo "<tr class='text-center' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>";
                 echo "<td>" . strtoupper($row['nombre']) . ' ' . strtoupper($row['apellido']) . "</td>";
                 echo "<td>" . strtoupper($row['tipodocumento']) . "</td>";
                 echo "<td>" . $row['documento'] . "</td>";
                 echo "<td>Activo</td>"; //FALTA PONER LA LÓGICA PARA DETERMINAR SI ES ACTIVO O NO (Parece que se debe crear un campo en la tabla 'prestamo')
                 echo '<td class="contact">
                             <div class="php-email-form">
-                                <a href="./vercliente.php"
-                                    <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #E9C46A; color: black; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Ver</button>
-                                </a>
+                                <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Ver</button>
                             </div>
                           </td>';
                 echo "</tr>";
             }
 
             ?>
+            -->
             </tbody>
 
 

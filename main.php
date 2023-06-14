@@ -37,25 +37,28 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
         </div>
 
     </div>
+
     <div class="row justify-content-center" id="contenedor">
-        <!-- Se creó un nuevo cliente? -->
-        <?php if(isset($_SESSION['successMessage'])): ?>
-            <div class="container mt-1">
-                <div class="alert alert-success">
-                    <?php echo $_SESSION['successMessage']; ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-            <?php unset($_SESSION['successMessage']); ?>
-        <?php endif; ?>
 
         <div class="col" id="cont-central">
+
+            <!-- Se creó un nuevo cliente? -->
+            <?php if(isset($_SESSION['successMessage'])): ?>
+                <div class="container col mt-1">
+                    <div class="alert alert-success">
+                        <?php echo $_SESSION['successMessage']; ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <?php unset($_SESSION['successMessage']); ?>
+            <?php endif; ?>
+
             <div class="row my-1">
                 <p class="font-custom text-center p-0 mb-4" style="font-size: 1.5rem">
-                <!-- MOSTRAR NOMBRE DE USUARIO --> 
-                <?php echo isset($_SESSION['nombreUsuario']) ? '¡ Hola '.$_SESSION['nombreUsuario'].' !' : " ERROR DE SESIÓN"; ?>
+                    <!-- MOSTRAR NOMBRE DE USUARIO -->
+                    <?php echo isset($_SESSION['nombreUsuario']) ? '¡ Hola '.$_SESSION['nombreUsuario'].' !' : " ERROR DE SESIÓN"; ?>
                 </p>
             </div>
 
@@ -70,67 +73,69 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                     </div>
                 </div>
 
-           <!-- Boton Cobradores -->
-            <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                <div class="figure align-middle">
-                    <a class="align-content-center" type="image" href="./cobradores.php">
-                        <img src="assets/icons/collaborator.png" height="100" width="100"/>
-                    </a>
+                <!-- Boton Cobradores -->
+                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                    <div class="figure align-middle">
+                        <a class="align-content-center" type="image" href="./cobradores.php">
+                            <img src="assets/icons/collaborator.png" height="100" width="100"/>
+                        </a>
                         <p class="mt-3 mb-3 font-custom">Cobradores</p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Boton Cobranza de préstamos -->
-            <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                <div class="figure align-middle">
-                    <a class="align-content-center" type="image" href="">
-                        <img src="assets/icons/cobranza.png" height="100" width="100"/>
-                    </a>
-                    <p class="mt-3 mb-3 font-custom">Cobranza de préstamos</p>
+                <!-- Boton Cobranza de préstamos -->
+                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                    <div class="figure align-middle">
+                        <a class="align-content-center" type="image" href="">
+                            <img src="assets/icons/cobranza.png" height="100" width="100"/>
+                        </a>
+                        <p class="mt-3 mb-3 font-custom">Cobranza de préstamos</p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Boton Préstamos -->
-            <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                <div class="figure align-middle">
-                    <a class="align-content-center" type="image" href="./prestamos.php">
-                        <img src="assets/icons/borrow.png" height="100" width="100"/>
-                    </a>
-                    <p class="mt-3 mb-3 font-custom">Préstamos</p>
+                <!-- Boton Préstamos -->
+                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                    <div class="figure align-middle">
+                        <a class="align-content-center" type="image" href="./prestamos.php">
+                            <img src="assets/icons/borrow.png" height="100" width="100"/>
+                        </a>
+                        <p class="mt-3 mb-3 font-custom">Préstamos</p>
+                    </div>
                 </div>
-            </div>
 
-           <!-- Botón Historial -->
-            <div href="" class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                <div class="figure align-middle">
-                    <a class="align-content-center" type="image" href="">
-                        <img src="assets/icons/history.png" height="100" width="100"/>
-                    </a>
-                    <p class="mt-3 mb-3 font-custom">Historial</p>
+                <!-- Botón Historial -->
+                <div href="" class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                    <div class="figure align-middle">
+                        <a class="align-content-center" type="image" href="">
+                            <img src="assets/icons/history.png" height="100" width="100"/>
+                        </a>
+                        <p class="mt-3 mb-3 font-custom">Historial</p>
+                    </div>
                 </div>
-            </div>
 
-            <!--Botón Reportes -->
-            <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                <div class="figure align-middle">
-                    <a class="align-content-center" type="image" href="">
-                        <img src="assets/icons/reports.png" height="100" width="100"/>
-                    </a>
-                    <p class="mt-3 mb-3 font-custom">Reportes</p>
+                <!--Botón Reportes -->
+                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                    <div class="figure align-middle">
+                        <a class="align-content-center" type="image" href="">
+                            <img src="assets/icons/reports.png" height="100" width="100"/>
+                        </a>
+                        <p class="mt-3 mb-3 font-custom">Reportes</p>
+                    </div>
                 </div>
-            </div>
-            <!-- Botón Salir (Cerrar sesión) -->
-            <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                <div class="figure align-middle">
-                    <a class="align-content-center" type="image" href="./logout.php">
-                        <img src="assets/icons/logout.png" height="100" width="100"/>
-                    </a>
-                    <p class="mt-3 mb-3 font-custom">Salir</p>
+                <!-- Botón Salir (Cerrar sesión) -->
+                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                    <div class="figure align-middle">
+                        <a class="align-content-center" type="image" href="./logout.php">
+                            <img src="assets/icons/logout.png" height="100" width="100"/>
+                        </a>
+                        <p class="mt-3 mb-3 font-custom">Salir</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+
 
 <footer class="py-4 mt-5" style="background-color: #2A9D8F; font-family: Lato; font-size: large">
     <div class="container py-4 mx-auto px-auto ">
@@ -163,13 +168,14 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
         </div>
     </div>
     </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 </footer>
 
 <!-- Optional JavaScript -->
 
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>

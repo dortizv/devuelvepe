@@ -27,3 +27,13 @@ function closeDiveamor(){
     let get = document.querySelector('#amortizar')
     get.style.display = 'none'
 }
+
+function openDivDelete(){
+    let get=document.querySelector('#eliminar')
+    get.style.display = 'block'
+}
+
+function closeDivDelete(){
+    let get = document.querySelector('#eliminar')
+    get.style.display = 'none'
+}
