@@ -135,7 +135,7 @@ if (isset($_GET['idPrestamo']) && isset($_SESSION['nombreUsuario']) && $_SESSION
                 <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">
                     <?php echo $nombreCliente?>
                 </p>
-                <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway; font-size: 15px">
+                <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway; font-size: 15px; font-weight: 600;">
                     <p class="my-3 p-0">Tasa: <?php echo $tasa?> %</p>
                     <p class="mb-3 p-0">Periodos:  <?php echo $cuotas?></p>
                     <p class="mb-3 p-0">Monto prestado: S/ <?php echo $monto?></p>

@@ -15,8 +15,29 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/main_style.css">
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+
+
+    <!-- VENDOR -->
+    <link href="./assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="./assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="./assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="./assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="./assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="./assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
 
     <title>Página principal</title>
+
+    <style>
+        a{
+            color: black;
+        }
+
+        a:hover{
+            color: white;
+        }
+    </style>
 </head>
 
 <body style="min-width: 400px;">
@@ -56,81 +77,78 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
             <?php endif; ?>
 
             <div class="row my-1">
-                <p class="font-custom text-center p-0 mb-4" style="font-size: 1.5rem">
+                <p class="font-custom text-center p-0 mb-4" style="font-family:Raleway; font-size: 28px; font-weight: 500">
                     <!-- MOSTRAR NOMBRE DE USUARIO -->
-                    <?php echo isset($_SESSION['nombreUsuario']) ? '¡ Hola '.$_SESSION['nombreUsuario'].' !' : " ERROR DE SESIÓN"; ?>
+                    <?php echo isset($_SESSION['nombreUsuario']) ? '¡Bienvenido '.$_SESSION['nombreUsuario'].'!' : " ERROR DE SESIÓN"; ?>
                 </p>
             </div>
 
-            <!-- Boton Clientes -->
+
             <div class="row d-flex justify-content-center">
-                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                    <div class="figure align-middle">
-                        <a class="align-content-center" type="image" href="./clientes.php">
+
+                <!-- Boton Clientes -->
+                <a class="align-content-center" href="./clientes.php">
+                    <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons aos-animate" data-aos="fade-up" data-aos-delay="100">
+                        <div class="figure align-middle">
                             <img src="assets/icons/client.png" height="100" width="100"/>
-                        </a>
-                        <p class="mt-3 mb-3 font-custom">Clientes</p>
+                            <p class="mt-3 mb-3" style="font-family:'Lato'; font-size: 24px; ">Clientes</p>
+                        </div>
                     </div>
-                </div>
+                </a>
 
                 <!-- Boton Cobradores -->
-                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                    <div class="figure align-middle">
-                        <a class="align-content-center" type="image" href="./cobradores.php">
+                <a class="align-content-center" type="image" href="./cobradores.php">
+                    <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                        <div class="figure align-middle">
                             <img src="assets/icons/collaborator.png" height="100" width="100"/>
-                        </a>
-                        <p class="mt-3 mb-3 font-custom">Cobradores</p>
+                            <p class="mt-3 mb-3 font-custom" style="font-family:'Lato'; font-size: 24px; ">Cobradores</p>
+                        </div>
                     </div>
-                </div>
+                 </a>
 
                 <!-- Boton Cobranza de préstamos -->
                 <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                     <div class="figure align-middle">
-                        <a class="align-content-center" type="image" href="">
-                            <img src="assets/icons/cobranza.png" height="100" width="100"/>
-                        </a>
-                        <p class="mt-3 mb-3 font-custom">Cobranza de préstamos</p>
+                        <img src="assets/icons/cobranza.png" height="100" width="100"/>
+                        <p class="mt-3 mb-3 font-custom" style="font-family:'Lato'; font-size: 24px; ">Cobranza de préstamos</p>
                     </div>
                 </div>
 
                 <!-- Boton Préstamos -->
-                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                    <div class="figure align-middle">
-                        <a class="align-content-center" type="image" href="./prestamos.php">
+                <a class="align-content-center" type="image" href="./prestamos.php">
+                    <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                        <div class="figure align-middle">
                             <img src="assets/icons/borrow.png" height="100" width="100"/>
-                        </a>
-                        <p class="mt-3 mb-3 font-custom">Préstamos</p>
+                            <p class="mt-3 mb-3 font-custom" style="font-family:'Lato'; font-size: 24px; ">Préstamos</p>
+                        </div>
                     </div>
-                </div>
-
+                </a>
                 <!-- Botón Historial -->
                 <div href="" class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                     <div class="figure align-middle">
-                        <a class="align-content-center" type="image" href="">
-                            <img src="assets/icons/history.png" height="100" width="100"/>
-                        </a>
-                        <p class="mt-3 mb-3 font-custom">Historial</p>
+                        <img src="assets/icons/history.png" height="100" width="100"/>
+                        <p class="mt-3 mb-3 font-custom" style="font-family:'Lato'; font-size: 24px; ">Historial</p>
                     </div>
                 </div>
 
                 <!--Botón Reportes -->
                 <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
                     <div class="figure align-middle">
-                        <a class="align-content-center" type="image" href="">
-                            <img src="assets/icons/reports.png" height="100" width="100"/>
-                        </a>
-                        <p class="mt-3 mb-3 font-custom">Reportes</p>
+                        <img src="assets/icons/reports.png" height="100" width="100"/>
+                        <p class="mt-3 mb-3 font-custom" style="font-family:'Lato'; font-size: 24px; ">Reportes</p>
                     </div>
                 </div>
+
                 <!-- Botón Salir (Cerrar sesión) -->
-                <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
-                    <div class="figure align-middle">
-                        <a class="align-content-center" type="image" href="./logout.php">
+                <a class="align-content-center" type="image" href="./logout.php">
+                    <div class="col-auto text-center justify-content-center pt-4 mx-4 mb-4 primary-buttons">
+                        <div class="figure align-middle">
                             <img src="assets/icons/logout.png" height="100" width="100"/>
-                        </a>
-                        <p class="mt-3 mb-3 font-custom">Salir</p>
+                            <p class="mt-3 mb-3 font-custom" style="font-family:'Lato'; font-size: 24px; ">Salir</p>
+                        </div>
                     </div>
-                </div>
+                </a>
+
             </div>
         </div>
     </div>
@@ -176,8 +194,20 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="./assets/vendor/aos/aos.js"
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!-- Vendor JS Files -->
+<script src="./assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="./assets/vendor/aos/aos.js"></script>
+<script src="./assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="./assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="./assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="./assets/js/main.js"></script>
+
 </body>
 
 </html>

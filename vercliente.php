@@ -153,7 +153,7 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
                 <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">
                     <?php echo $nombreCliente ?>
                 </p>
-                <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway; font-size: 15px">
+                <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway;font-weight: 600;font-size: 15px">
                     <p class="my-3 p-0">DNI:  <?php echo $documentoCliente?></p>
                     <p class="mb-3 p-0">Teléfono:  <?php echo $telefonoCliente ?></p>
                     <p class="mb-3 p-0">Dirección: <?php echo$direccionCliente?></p>
