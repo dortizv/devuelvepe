@@ -1,25 +1,39 @@
 <?php
 // VALIDACIÓN DE USUARIO LOGUEADO
 session_start();
-if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
-
+if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     include_once("./login-val/db.php");
 
     $userId = $_SESSION['idUsuario'];
+    $idCliente = $_GET['id'];
 
     $db = connect_db();
 
-    $sql = "SELECT DISTINCT prestamo.idCliente, cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
-            FROM cliente 
-            INNER JOIN prestamo ON prestamo.idCliente = cliente.id
-            INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
-            WHERE cobrador.idUsuario = ?";
+    $sqlCliente = "SELECT cliente.nombre AS nombreCliente, cliente.apellido AS apellidoCliente, cliente.documento, cliente.telefono, cliente.direccion 
+                    FROM cliente
+                    WHERE cliente.id = ?";
 
+    $stmtCliente = $db->prepare($sqlCliente);
+    $stmtCliente->bind_param("i", $idCliente);
+    $stmtCliente->execute();
+    $resultCliente = $stmtCliente->get_result();
+    $row = $resultCliente->fetch_assoc();
+
+    $nombreCliente = $row['nombreCliente']." ".$row['apellidoCliente'];
+    $documentoCliente = $row['documento'];
+    $telefonoCliente = $row['telefono'];
+    $direccionCliente = $row['direccion'];
+
+    $sql = "SELECT prestamo.id AS idPrestamo, cliente.nombre AS nombreCliente, cliente.apellido AS apellidoCliente, cliente.documento, cliente.telefono, cliente.direccion, cobrador.nombre AS nombreCobrador, cobrador.apellido AS apellidoCobrador, prestamo.monto, prestamo.tasa, prestamo.cuotas FROM prestamo 
+            INNER JOIN cliente ON prestamo.idCliente = cliente.id
+            INNER JOIN cobrador ON prestamo.idCobrador = cobrador.id
+            WHERE cliente.id = ?";
 
     $stmt = $db->prepare($sql);
-    $stmt->bind_param("i", $userId);
+    $stmt->bind_param("i", $idCliente);
     $stmt->execute();
     $result = $stmt->get_result();
+
  ?>
     <!DOCTYPE html>
     <html lang="es">
@@ -136,11 +150,13 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
         <div class="container d-flex align-items-center justify-content-between">
             <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
                 <img class="m-3" src="assets/icons/client.png" width="80px">
-                <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">NOMBRE APELLIDO</p>
+                <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">
+                    <?php echo $nombreCliente ?>
+                </p>
                 <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway; font-size: 15px">
-                    <p class="my-3 p-0">Doc. de identidad: 12345678</p>
-                    <p class="mb-3 p-0">Teléfono: 999999999</p>
-                    <p class="mb-3 p-0">Dirección: sssssssss</p>
+                    <p class="my-3 p-0">DNI:  <?php echo $documentoCliente?></p>
+                    <p class="mb-3 p-0">Teléfono:  <?php echo $telefonoCliente ?></p>
+                    <p class="mb-3 p-0">Dirección: <?php echo$direccionCliente?></p>
                 </div>
             </div>
 
@@ -188,55 +204,38 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
             <thead class="thead-dark text-center"
                    style="border: transparent; font-family: Raleway; font-size: 20px;font-weight: 600;color: #264653">
             <tr>
-                <th scope="col">Item</th>
+                <th scope="col">Cobrador</th>
                 <th scope="col">Monto prestado (S/)</th>
                 <th scope="col">Tasa (%)</th>
-                <th scope="col"># de cuotas</th>
+                <th scope="col"># Cuotas</th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody class="align-middle justify-content-center">
-            <tr class='text-center' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>
-                <td>1</td>
-                <td>1200</td>
-                <td>12</td>
-                <td>4</td>
-                <td class="contact">
-                    <div class="php-email-form">
-                        <a href="verprestamocliente.php">
-                            <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Ver</button>
-                        </a>
-                        <button type="submit" onclick="openDivdelete()" class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #a52834; color: white; font-family: Raleway; font-weight: 600; font-size: 14px">Eliminar</button>
-
-                    </div>
-                </td>
-
-            </tr>
-
-            <!-- Lógica de listado de prestamos-->
-
-            <!--
             <?php
-
+            if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo "<tr class='text-center' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>";
-                echo "<td>" . strtoupper($row['nombre']) . ' ' . strtoupper($row['apellido']) . "</td>";
-                echo "<td>" . strtoupper($row['tipodocumento']) . "</td>";
-                echo "<td>" . $row['documento'] . "</td>";
-                echo "<td>Activo</td>"; //FALTA PONER LA LÓGICA PARA DETERMINAR SI ES ACTIVO O NO (Parece que se debe crear un campo en la tabla 'prestamo')
-                echo '<td class="contact">
-                            <div class="php-email-form">
-                                <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Ver</button>
-                            </div>
-                          </td>';
+                echo "<td>" . $row['nombreCobrador'] ." ". $row['apellidoCobrador'] . "</td>";
+                echo "<td>" . $row['monto']. "</td>";
+                echo "<td>" . $row['tasa']. "</td>";
+                echo "<td>" . $row['cuotas'] ."</td>";
+                echo '<td class="contact" >
+                    <div class="php-email-form" >
+                        <a href="./verprestamocliente.php?idPrestamo=' . $row['idPrestamo'] . '">
+                            <button class="mx-1 my-1" style = "width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type = "submit" > Ver</button >
+                        </a >
+                        <button type = "submit" onclick = "openDivdelete()" class="mx-1 my-1" style = "width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #a52834; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" > Eliminar</button >
+
+                    </div >
+                </td >';
+
                 echo "</tr>";
+            }} else{
+                echo "<td colspan='5' class='text-center'>" . "NO SE ENCONTRARON DEUDAS". "</td>";
             }
-
             ?>
-            -->
             </tbody>
-
-
         </table>
     </main>
 

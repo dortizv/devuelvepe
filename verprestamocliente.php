@@ -1,25 +1,35 @@
 <?php
 // VALIDACIÓN DE USUARIO LOGUEADO
 session_start();
-if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
+
+if (isset($_GET['idPrestamo']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
     include_once("./login-val/db.php");
 
     $userId = $_SESSION['idUsuario'];
+    $idPrestamo = $_GET['idPrestamo'];
 
     $db = connect_db();
 
-    $sql = "SELECT DISTINCT prestamo.idCliente, cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
-            FROM cliente 
-            INNER JOIN prestamo ON prestamo.idCliente = cliente.id
-            INNER JOIN cobrador ON cobrador.id = prestamo.idCobrador
-            WHERE cobrador.idUsuario = ?";
+    $sql = "SELECT cliente.nombre, cliente.apellido, prestamo.tasa, prestamo.cuotas, prestamo.monto, prestamo.fecha
+                    FROM cliente 
+                    INNER JOIN prestamo ON prestamo.idCliente = cliente.id
+                    WHERE prestamo.id = ?";
 
 
     $stmt = $db->prepare($sql);
-    $stmt->bind_param("i", $userId);
+    $stmt->bind_param("i", $idPrestamo);
     $stmt->execute();
     $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    $nombreCliente = $row['nombre']." ".$row['apellido'];
+    $tasa = $row['tasa'];
+    $cuotas = $row['cuotas'];
+    $monto = $row['monto'];
+    $fecha = $row['fecha'];
+    
+
  ?>
     <!DOCTYPE html>
     <html lang="es">
@@ -122,11 +132,13 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
         <div class="container d-flex align-items-center justify-content-between">
             <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
                 <img class="m-3" src="assets/icons/client.png" width="80px">
-                <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">NOMBRE APELLIDO</p>
+                <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">
+                    <?php echo $nombreCliente?>
+                </p>
                 <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway; font-size: 15px">
-                    <p class="my-3 p-0">Tasa: x%</p>
-                    <p class="mb-3 p-0">Periodos: N</p>
-                    <p class="mb-3 p-0">Monto prestado: S/xxxx.xx</p>
+                    <p class="my-3 p-0">Tasa: <?php echo $tasa?> %</p>
+                    <p class="mb-3 p-0">Periodos:  <?php echo $cuotas?></p>
+                    <p class="mb-3 p-0">Monto prestado: S/ <?php echo $monto?></p>
                 </div>
             </div>
 
@@ -169,34 +181,38 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                 </tr>
             </thead>
             <tbody class="align-middle justify-content-center">
-                <tr class='text-center' style='color: white ;background-color: #264653; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>
-                    <td>1</td>
-                    <td>211.62</td>
-                    <td>33.73</td>
-                    <td>245.35</td>
-                    <td>30/03/2023</td>
-                    <td class="contact">
+            <?php
+                $tasa = $tasa/100;
+                // Cálculo de la cuota
+                $pago = round(($monto * $tasa) / (1 - pow(1 + $tasa, -$cuotas)),2);
+
+                for ($i = 1; $i <= $cuotas; $i++) {
+                    // Cálculo de la amortización e interés para cada periodo
+                    $interes = round($monto * $tasa,2);
+                    $amortizacion = round($pago - $interes,2);
+
+                    // Fecha de vencimiento
+                    $fechaVencimiento = date('d-m-Y', strtotime($fecha . "+$i month"));
+
+                    echo '<tr class="text-center" style="color: white; background-color: #264653; border: transparent; font-family: Roboto; font-weight: 600; font-size: 15px">';
+                    echo '<td>' . $i . '</td>';
+                    echo '<td>' . $amortizacion . '</td>';
+                    echo '<td>' . $interes . '</td>';
+                    echo '<td>' . $pago . '</td>';
+                    echo '<td>' . $fechaVencimiento . '</td>';
+                    echo '<td class="contact">
                         <div class="php-email-form">
                             <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Pagado</button>
                         </div>
-                    </td>
+                    </td>';
+                    echo '</tr>';
+                    // Actualizar el monto pendiente para el próximo periodo
+                    $monto -= $amortizacion;
+                }
 
-                </tr>
-
-                <tr class='text-center' style='color: white ;background-color: #264653; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>
-                    <td>2</td>
-                    <td>211.62</td>
-                    <td>33.73</td>
-                    <td>245.35</td>
-                    <td>30/04/2023</td>
-                    <td class="contact">
-                        <div class="php-email-form">
-                            <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Pagado</button>
-                        </div>
-                    </td>
-
-                </tr>
-
+                echo '</tbody>';
+                echo '</table>';
+            ?>
             <!-- Lógica de listado de prestamos-->
 
             <!--

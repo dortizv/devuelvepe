@@ -9,7 +9,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
     $db = connect_db();
 
-    $sql = "SELECT DISTINCT cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
+    $sql = "SELECT DISTINCT cliente.id, cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
             FROM cliente 
             WHERE cliente.idUsuario = ?";
 
@@ -123,18 +123,6 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                 <img class="m-3" src="assets/icons/client.png" width="80px">
                 <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">Clientes</p>
             </div>
-
-            <?php //COMPROBAR SI SE AGREGÓ UN CLIENTE NUEVO
-            // Verificar si hay un mensaje de error en la variable de sesión
-            if (isset($_SESSION['success_add_client'])) {
-                // Mostrar el mensaje de error
-                echo '<div class="section-title" data-aos="fade-up">';
-                echo '<h3 style="border: solid 2px darkcyan; border-radius: 10rem; font-size: 1.2rem; padding: 0.3rem 0.3rem">'.$_SESSION["success_add_client"].'</h3>';
-                echo ' </div>';
-                // Limpiar el mensaje de error de la variable de sesión
-                unset($_SESSION['success_add_client']);
-            }
-            ?>
             <nav class="navbar" id="navbar">
                 <ul class="row justify-content-center align-items-center contact text-black" style="font-weight: bold">
                     <li class="col-auto justify-content-center align-items-center d-flex">
@@ -184,7 +172,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                 echo "<td>Activo</td>"; //FALTA PONER LA LÓGICA PARA DETERMINAR SI ES ACTIVO O NO (Parece que se debe crear un campo en la tabla 'prestamo')
                 echo '<td class="contact">
                             <div class="php-email-form">
-                                <a href="./vercliente.php"
+                                <a href="./vercliente.php?id=' . $row['id'] . '">
                                     <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #E9C46A; color: black; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Ver</button>
                                 </a>
                             </div>
