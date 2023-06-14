@@ -80,12 +80,93 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
 
+        <style>
+            header{
+                animation: fadeDownAnimation ease 1s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            table{
+                animation: fadeUpAnimation ease 1s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            #nuevopres{
+                animation: blur ease 0.2s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            .prompt{
+                animation: fadeUpAnimationPrompt ease 0.5s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            .fila{
+                scale: 1;
+                transition: all 0.2s ease-in;
+                background-color: #FBF4EE;
+                color: black;
+            }
+            .fila:hover{
+                scale: 103%;
+                background-color: #264653;
+                color: white;
+            }
+
+            @keyframes fadeUpAnimation {
+                0%{
+                    margin-top: 100px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: initial;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeDownAnimation {
+                0%{
+                    margin-top: -50px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: initial;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes blur {
+                0%{
+                    backdrop-filter: blur(0px);
+                }
+                100%{
+                    backdrop-filter: blur(4px);
+                }
+            }
+
+            @keyframes fadeUpAnimationPrompt {
+                0%{
+                    margin-top: 250px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: 150px;
+                    opacity: 1;
+                }
+            }
+
+        </style>
+
 
     </head>
     <body style="min-width: 770px">
 
     <!-- =============== NUEVO PRÉSTAMO  ===============-->
-    <div class="struct" id="nuevopres">
+    <div class="struct" id="nuevopres" style="z-index: 2;">
         <div class="prompt">
 
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Nuevo préstamo</p>
@@ -144,10 +225,10 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     <!-- =============== NUEVO PRÉSTAMO  ===============-->
 
     <!-- =============== DESPLEGABLE EDITAR PRÉSTAMO  =============== -->
-    <div class="struct" id="editar">
+    <div class="struct" id="editar" style="z-index: 2;">
         <div class="prompt">
 
-            <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Editar
+            <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center;">Editar
                 préstamo</p>
             <div class="container">
 
@@ -207,7 +288,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     <!-- =============== FIN DESPLEGABLE EDITAR PRÉSTAMO  =============== -->
 
     <!-- =============== DESPLEGABLE AMORTIZAR (AÚN SIN FUNCIONAR) =============== -->
-    <div class="struct" id="amortizar">
+    <div class="struct" id="amortizar" style="z-index: 2;">
         <div class="prompt">
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">
                 Amortizar</p>
@@ -278,7 +359,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
           style="margin-top: 112px; margin: 112px 10% 5% 10%;">
 
         <table class="table"
-               style="table-layout: fixed; border-collapse: separate; border-spacing: 0 15px; max-width: 79.35%; min-width: 646px">
+               style="table-layout: fixed; border-collapse: separate; border-spacing: 0 15px; max-width: 79.35%; min-width: 646px; z-index: 1">
             <thead class="thead-dark text-center"
                    style="border: transparent; font-family: Raleway; font-size: 20px;font-weight: 600;color: #264653">
             <tr>
@@ -304,7 +385,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
 
                 //Mostrar filas
-                echo "<tr class='text-center' style='background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>";
+                echo "<tr class='text-center fila' style='border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>";
                 echo "<td>" . $clienteNA . "</td>";
                 echo "<td>" . $cuotas . "</td>";
                 echo "<td>" . $monto . "</td>";
@@ -341,6 +422,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
         function openDiveditar(idPrestamo, clienteNA, cobradorNA, monto, tasa, cuotas) {
             let get = document.querySelector('#editar');
             get.style.display = 'block';
+
 
             var idPrestamoEdit = document.getElementById("idPrestamoEdit");
             var clienteEdit = document.getElementById("clienteEdit");

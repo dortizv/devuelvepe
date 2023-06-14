@@ -1,3 +1,4 @@
+
 body{
     background-color: #FBF4EE;
 
@@ -10,11 +11,12 @@ body{
     width: 20rem;
     box-sizing: content-box;
 }
+
 #cont-central{
     margin-top: 5rem;
     margin-bottom: 5rem;
-    margin-left: 10rem;
-    margin-right: 10rem;
+    margin-left: 3rem!important;
+    margin-right: 3rem!important;
 }
 
 .primary-buttons{
@@ -31,4 +33,18 @@ body{
 .row{
     margin-left: 0px;
     margin-right: 0px;
+}
+
+#contenedor{
+    animation: fadeInAnimation ease 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+@keyframes fadeInAnimation {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }

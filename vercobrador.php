@@ -1,24 +1,34 @@
-<?php
+ <?php
 // VALIDACIÓN DE USUARIO LOGUEADO
-session_start();
-if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
+    session_start();
 
-    include_once("./login-val/db.php");
+    if (isset($_GET['idCobrador']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
-    $userId = $_SESSION['idUsuario'];
+        include_once("./login-val/db.php");
 
-    $db = connect_db();
+        $userId = $_SESSION['idUsuario'];
+        $idCobrador = $_GET['idCobrador'];
 
-    $sql = "SELECT DISTINCT cliente.id, cliente.nombre, cliente.apellido, cliente.tipodocumento, cliente.documento 
-            FROM cliente 
-            WHERE cliente.idUsuario = ?";
+        $db = connect_db();
+
+        $sql = "SELECT cobrador.nombre AS nombreCobrador, cobrador.apellido AS apellidoCobrador, cobrador.dni, cobrador.telefono
+                    FROM cobrador
+                    WHERE cobrador.id = ?";
 
 
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
- ?>
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("i", $idCobrador);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        $nombreCobrador = $row['nombre']." ".$row['apellido'];
+        $dniCobrador = $row['dni'];
+        $telefonoCobrador = $row['telefono'];
+        ?>
+
+
+
     <!DOCTYPE html>
     <html lang="es">
     <head>
@@ -49,106 +59,23 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
         <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
 
 
-        <style>
-            header{
-                animation: fadeDownAnimation ease 1s;
-                animation-iteration-count: 1;
-                animation-fill-mode: forwards;
-            }
-
-            table{
-                animation: fadeUpAnimation ease 1s;
-                animation-iteration-count: 1;
-                animation-fill-mode: forwards;
-            }
-
-            #nuevopres{
-                animation: blur ease 0.2s;
-                animation-iteration-count: 1;
-                animation-fill-mode: forwards;
-            }
-
-            .prompt{
-                animation: fadeUpAnimationPrompt ease 0.5s;
-                animation-iteration-count: 1;
-                animation-fill-mode: forwards;
-            }
-
-            .fila{
-                scale: 1;
-                transition: all 0.2s ease-in;
-                background-color: #264653;
-                color: white;
-            }
-            .fila:hover{
-                scale: 103%;
-                background-color: #FBF4EE;
-                color: black;
-            }
-
-            @keyframes fadeUpAnimation {
-                0%{
-                    margin-top: 100px;
-                    opacity: 0;
-                }
-                100%{
-                    margin-top: initial;
-                    opacity: 1;
-                }
-            }
-
-            @keyframes fadeDownAnimation {
-                0%{
-                    margin-top: -50px;
-                    opacity: 0;
-                }
-                100%{
-                    margin-top: initial;
-                    opacity: 1;
-                }
-            }
-
-            @keyframes blur {
-                0%{
-                    backdrop-filter: blur(0px);
-                }
-                100%{
-                    backdrop-filter: blur(4px);
-                }
-            }
-
-            @keyframes fadeUpAnimationPrompt {
-                0%{
-                    margin-top: 250px;
-                    opacity: 0;
-                }
-                100%{
-                    margin-top: 150px;
-                    opacity: 1;
-                }
-            }
-
-
-        </style>
-
     </head>
     <body style="min-width: 770px">
 
-    <!-- ============== POP-UP CREACIÓN DE NUEVO CLIENTE ============== -->
-    <div class="struct" id="nuevopres" style="z-index: 2">
+    <!-- ============== POP-UP EDICIÓN DE CLIENTE ============== -->
+    <div class="struct" id="nuevopres">
         <div class="prompt">
 
-            <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Nuevo cliente</p>
+            <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Editar cliente</p>
             <form class="container" method="POST" action="./cliente/addCliente.php">
-                <input type="hidden" name="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
                 <div class="row p-0 m-0">
                     <div class="col-6 mb-3">
-                        <label for="nombreAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar nombre:</label>
+                        <label for="nombreAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Nombre:</label>
                         <input type="text" class="form-control" id="nombreAdd" name="nombreAdd" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
                     <div class="col-6 mb-3">
-                        <label for="apellidoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar apellido:</label>
+                        <label for="apellidoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Apellido:</label>
                         <input type="text" class="form-control" id="apellidoAdd" name="apellidoAdd" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
@@ -156,7 +83,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
                 <div class="row p-0 m-0 align-content-center justify-content-center">
                     <div class="col-7 mb-3">
-                        <label for="documentoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar documento de identidad:</label>
+                        <label for="documentoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Documento de identidad:</label>
                         <input type="text" class="form-control" id="documentoAdd" name="documentoAdd" maxlength="8" pattern="^[0-9]{8}$" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
@@ -169,11 +96,11 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                     </div>
                     <div class="row p-0 m-0">
                         <div class="col-6 mb-3">
-                            <label for="direccionAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar dirección:</label>
+                            <label for="direccionAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Dirección:</label>
                             <input type="text" class="form-control" id="direccionAdd" name="direccionAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                         </div>
                         <div class="col-6 mb-3">
-                            <label for="telefonoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresar teléfono:</label>
+                            <label for="telefonoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Teléfono:</label>
                             <input type="text" class="form-control" id="telefonoAdd" name="telefonoAdd" maxlength="9" pattern="^[0-9]{9}$"
                                    pattern="^[0-9]{9}$" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                         </div>
@@ -195,7 +122,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
         </div>
     </div>
-    <!-- ============== FIN CREACIÓN DE POP-UP NUEVO CLIENTE ============== -->
+    <!-- ============== FIN POP-UP EDICIÓN DE CLIENTE ============== -->
 
     <!-- ======== NAV BAR ========== -->
 
@@ -203,25 +130,32 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
         <div class="container d-flex align-items-center justify-content-between">
             <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
                 <img class="m-3" src="assets/icons/client.png" width="80px">
-                <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">Clientes</p>
+                <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">
+                    <?php echo $nombreCobrador ?>
+                </p>
+                <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway;font-weight: 600;font-size: 15px">
+                    <p class="my-3 p-0">DNI:  <?php echo $dniCobrador?></p>
+                    <p class="mb-3 p-0">Teléfono:  <?php echo $telefonoCobrador ?></p>
+                </div>
             </div>
+
+            <!-- COPROBAR EDICIÓN DE CLIENTE -->
+
             <nav class="navbar" id="navbar">
                 <ul class="row justify-content-center align-items-center contact text-black" style="font-weight: bold">
                     <li class="col-auto justify-content-center align-items-center d-flex">
-                        <a href="./main.php">
-                            <img class="col-auto" src="assets/icons/cube.png" style="height: 40px">
-                            <p class="col-auto m-0 p-0 px-2 text-black"
-                               style="font-family: Raleway; font-weight: 600; font-size: 20px">Inicio</p>
-                        </a>
+                        <img class="col-auto" src="assets/icons/cube.png" style="height: 40px">
+                        <a href="./main.php" class="col-auto m-0 p-0 px-2 text-black"
+                           style="font-family: Raleway; font-weight: 600; font-size: 20px">Inicio</a>
                     </li>
                     <li class="col-auto php-email-form" style="min-width: 190px">
                         <input type="text" class="form-control" name="buscar" placeholder="Buscar" required>
                     </li class="col-6">
                     <li onclick="openDiv()" class="col-auto justify-content-center align-items-center d-flex"
                         style="cursor: pointer">
-                        <img class="col-auto" src="assets/icons/add.png" style="height: 40px">
+                        <img class="col-auto" src="assets/icons/modify.png" style="height: 40px">
                         <a class="col-auto m-0 p-0 px-2 text-black"
-                           style="font-family: Raleway; font-weight: 600; font-size: 20px">Nuevo cliente</a>
+                           style="font-family: Raleway; font-weight: 600; font-size: 20px">Modificar datos</a>
                     </li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
@@ -230,44 +164,60 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     </header>
     <!-- ======== FIN NAV BAR ========== -->
 
+    <!-- INICIO Script para eliminar prestamo -->
+    <script>
+        function openDivdelete(){
+            let get=document.querySelector('#eliminar')
+            get.style.display = 'block'
+        }
 
-    <main id="main" class="d-flex align-items-center justify-content-center"
-          style="margin-top: 112px; margin: 112px 10% 5% 10%;">
-        <table class="table"
-               style="table-layout: fixed; border-collapse: separate; border-spacing: 0 15px; max-width: 79.35%; min-width: 646px">
+        function closeDivdelete(){
+            let get = document.querySelector('#eliminar')
+            get.style.display = 'none'
+        }
+    </script>
+    <!-- FIN Script para eliminar prestamo -->
+
+    <main id="main" class="d-flex align-items-center justify-content-center"  style="margin-top: 112px; margin: 112px 10% 5% 10%;">
+        <table class="table" style="table-layout: fixed; border-collapse: separate; border-spacing: 0 15px; max-width: 79.35%; min-width: 646px">
             <thead class="thead-dark text-center"
                    style="border: transparent; font-family: Raleway; font-size: 20px;font-weight: 600;color: #264653">
             <tr>
-                <th scope="col">Clientes</th>
-                <th scope="col">Documento</th>
-                <th scope="col">N° Documento</th>
-                <th scope="col">Estado</th>
+                <th scope="col">Item</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Tasa (%)</th>
+                <th scope="col"># Cuotas</th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody class="align-middle justify-content-center">
+                <tr class='text-center' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>
+
+                </tr>
             <?php
-
+            if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "<tr class='text-center fila' style='border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px; z-index: 1;'>";
-                echo "<td>" . strtoupper($row['nombre']) . ' ' . strtoupper($row['apellido']) . "</td>";
-                echo "<td>" . strtoupper($row['tipodocumento']) . "</td>";
-                echo "<td>" . $row['documento'] . "</td>";
-                echo "<td>Activo</td>"; //FALTA PONER LA LÓGICA PARA DETERMINAR SI ES ACTIVO O NO (Parece que se debe crear un campo en la tabla 'prestamo')
-                echo '<td class="contact">
-                            <div class="php-email-form">
-                                <a href="./vercliente.php?id=' . $row['id'] . '">
-                                    <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #E9C46A; color: black; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Ver</button>
-                                </a>
-                            </div>
-                          </td>';
-                echo "</tr>";
-            }
+                echo "<tr class='text-center' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>";
+                echo "<td>" . $row['nombreCobrador'] ." ". $row['apellidoCobrador'] . "</td>";
+                echo "<td>" . $row['monto']. "</td>";
+                echo "<td>" . $row['tasa']. "</td>";
+                echo "<td>" . $row['cuotas'] ."</td>";
+                echo '<td class="contact" >
+                    <div class="php-email-form" >
+                        <a href="./vercobrador.php?idCobrador=' . $row['idPrestamo'] . '">
+                            <button class="mx-1 my-1" style = "width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type = "submit" > Ver</button >
+                        </a >
+                        <button type = "submit" onclick = "openDivdelete()" class="mx-1 my-1" style = "width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #a52834; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" > Eliminar</button >
 
+                    </div >
+                </td >';
+
+                echo "</tr>";
+            }} else{
+                echo "<td colspan='5' class='text-center'>" . "NO SE ENCONTRARON DEUDAS". "</td>";
+            }
             ?>
             </tbody>
-
-
         </table>
     </main>
 
