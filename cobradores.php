@@ -9,7 +9,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
     $db = connect_db();
 
-    $sql = "SELECT cobrador.idUsuario, cobrador.nombre, cobrador.apellido, cobrador.dni, COUNT(DISTINCT prestamo.id) AS cantidad_prestamos
+    $sql = "SELECT cobrador.id, cobrador.idUsuario, cobrador.nombre, cobrador.apellido, cobrador.dni, COUNT(DISTINCT prestamo.id) AS cantidad_prestamos
             FROM cobrador
             LEFT JOIN prestamo ON cobrador.id = prestamo.idCobrador
             WHERE cobrador.idUsuario = ?
@@ -23,7 +23,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
 
 
     //$row = $result -> fetch_assoc();
-    //var_dump($_SESSION['idUsuario']);
+    //var_dump($row);
     //die();
     ?>
 <!DOCTYPE html>
@@ -233,8 +233,10 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
                         echo "<td>" . $row['cantidad_prestamos'] . "</td>";
                         echo "<td>" . $row['cantidad_prestamos'] . "</td>"; ; //FALTA PONER LA LÓGICA PARA DETERMINAR SI HAY CLIENTES MOROSOS (Parece que se debe crear un campo en la tabla 'prestamo')
                         echo '<td class="contact">
-                                <div class="php-email-form">
-                                    <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #E9C46A; color: black; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Ver</button>
+                               <div class="php-email-form">
+                                    <a href="./vercobrador.php?id=' . $row['id'] . '">
+                                        <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #E9C46A; color: black; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Ver</button>
+                                    </a>
                                 </div>
                               </td>';
                     echo "</tr>";

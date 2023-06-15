@@ -19,7 +19,7 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
     $resultCliente = $stmtCliente->get_result();
     $row = $resultCliente->fetch_assoc();
 
-    $nombreCliente = $row['nombreCliente']." ".$row['apellidoCliente'];
+    $nombreCliente = $row['nombreCliente'] . " " . $row['apellidoCliente'];
     $documentoCliente = $row['documento'];
     $telefonoCliente = $row['telefono'];
     $direccionCliente = $row['direccion'];
