@@ -1,34 +1,3 @@
- <?php
-// VALIDACIÓN DE USUARIO LOGUEADO
-    session_start();
-
-    if (isset($_GET['idCobrador']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
-
-        include_once("./login-val/db.php");
-
-        $userId = $_SESSION['idUsuario'];
-        $idCobrador = $_GET['idCobrador'];
-
-        $db = connect_db();
-
-        $sql = "SELECT cobrador.nombre AS nombreCobrador, cobrador.apellido AS apellidoCobrador, cobrador.dni, cobrador.telefono
-                    FROM cobrador
-                    WHERE cobrador.id = ?";
-
-
-        $stmt = $db->prepare($sql);
-        $stmt->bind_param("i", $idCobrador);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-
-        $nombreCobrador = $row['nombre']." ".$row['apellido'];
-        $dniCobrador = $row['dni'];
-        $telefonoCobrador = $row['telefono'];
-        ?>
-
-
-
     <!DOCTYPE html>
     <html lang="es">
     <head>
@@ -131,11 +100,11 @@
             <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
                 <img class="m-3" src="assets/icons/client.png" width="80px">
                 <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">
-                    <?php echo $nombreCobrador ?>
+                    NOMBRE COBRADOR
                 </p>
                 <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway;font-weight: 600;font-size: 15px">
-                    <p class="my-3 p-0">DNI:  <?php echo $dniCobrador?></p>
-                    <p class="mb-3 p-0">Teléfono:  <?php echo $telefonoCobrador ?></p>
+                    <p class="my-3 p-0">DNI:  XXXXXXXX</p>
+                    <p class="mb-3 p-0">Teléfono:  XXXXXXX</p>
                 </div>
             </div>
 
@@ -183,40 +152,23 @@
             <thead class="thead-dark text-center"
                    style="border: transparent; font-family: Raleway; font-size: 20px;font-weight: 600;color: #264653">
             <tr>
-                <th scope="col">Item</th>
+                <th scope="col">ID</th>
                 <th scope="col">Cliente</th>
-                <th scope="col">Tasa (%)</th>
-                <th scope="col"># Cuotas</th>
+                <th scope="col">DNI</th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody class="align-middle justify-content-center">
-                <tr class='text-center' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>
-
+                <tr class='text-center' style='color: white ;background-color: #264653; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>
+                    <td>1</td>
+                    <td>Nombre cliente</td>
+                    <td>77777777</td>
+                    <td class="contact">
+                        <div class="php-email-form" >
+                            <button class="mx-1 my-1" style = "width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #E9C46A; color: black; font-family: Raleway; font-weight: 600; font-size: 14px" type = "submit" >Desactivar</button >
+                        </div>
+                    </td>
                 </tr>
-            <?php
-            if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr class='text-center' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>";
-                echo "<td>" . $row['nombreCobrador'] ." ". $row['apellidoCobrador'] . "</td>";
-                echo "<td>" . $row['monto']. "</td>";
-                echo "<td>" . $row['tasa']. "</td>";
-                echo "<td>" . $row['cuotas'] ."</td>";
-                echo '<td class="contact" >
-                    <div class="php-email-form" >
-                        <a href="./vercobrador.php?idCobrador=' . $row['idPrestamo'] . '">
-                            <button class="mx-1 my-1" style = "width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type = "submit" > Ver</button >
-                        </a >
-                        <button type = "submit" onclick = "openDivdelete()" class="mx-1 my-1" style = "width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #a52834; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" > Eliminar</button >
-
-                    </div >
-                </td >';
-
-                echo "</tr>";
-            }} else{
-                echo "<td colspan='5' class='text-center'>" . "NO SE ENCONTRARON DEUDAS". "</td>";
-            }
-            ?>
             </tbody>
         </table>
     </main>
@@ -235,11 +187,3 @@
 
     </body>
     </html>
-
-<?php
-//FIN DE VALIDACIÓN SI HAY SESIÓN INICIADA
-} else {
-    header("Location:./login.php");
-    exit;
-}
-?>

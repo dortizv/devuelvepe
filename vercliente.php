@@ -64,12 +64,92 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
 
+        <style>
+            header{
+                animation: fadeDownAnimation ease 1s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
 
+            table{
+                animation: fadeUpAnimation ease 1s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            #nuevopres{
+                animation: blur ease 0.2s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            .prompt{
+                animation: fadeUpAnimationPrompt ease 0.5s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            .fila{
+                scale: 1;
+                transition: all 0.2s ease-in;
+                background-color: #264653;
+                color: white;
+            }
+            .fila:hover{
+                scale: 103%;
+                background-color: #FBF4EE;
+                color: black;
+            }
+
+            @keyframes fadeUpAnimation {
+                0%{
+                    margin-top: 100px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: initial;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeDownAnimation {
+                0%{
+                    margin-top: -50px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: initial;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes blur {
+                0%{
+                    backdrop-filter: blur(0px);
+                }
+                100%{
+                    backdrop-filter: blur(4px);
+                }
+            }
+
+            @keyframes fadeUpAnimationPrompt {
+                0%{
+                    margin-top: 250px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: 150px;
+                    opacity: 1;
+                }
+            }
+
+
+        </style>
     </head>
     <body style="min-width: 770px">
 
     <!-- ============== POP-UP EDICIÓN DE CLIENTE ============== -->
-    <div class="struct" id="nuevopres">
+    <div class="struct" id="nuevopres" style="z-index: 2">
         <div class="prompt">
 
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Editar cliente</p>
@@ -131,7 +211,7 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
     <!-- ============== FIN POP-UP EDICIÓN DE CLIENTE ============== -->
 
     <!-- ============== POP-UP ELIMINAR PRÉSTAMO ============== -->
-    <div class="struct" id="eliminar">
+    <div class="struct" id="eliminar" style="z-index: 2;">
         <div class="prompt">
 
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">¿Seguro que quieres borrar el préstamo?</p>
@@ -215,7 +295,7 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
             <?php
             if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "<tr class='text-center' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>";
+                echo "<tr class='text-center fila' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px; z-index: 1'>";
                 echo "<td>" . $row['nombreCobrador'] ." ". $row['apellidoCobrador'] . "</td>";
                 echo "<td>" . $row['monto']. "</td>";
                 echo "<td>" . $row['tasa']. "</td>";

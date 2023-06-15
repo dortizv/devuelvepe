@@ -61,6 +61,99 @@ if (isset($_GET['idPrestamo']) && isset($_SESSION['nombreUsuario']) && $_SESSION
         <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
 
 
+        <style>
+            header{
+                animation: fadeDownAnimation ease 1s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            table{
+                animation: fadeUpAnimation ease 1s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            #nuevopres{
+                animation: blur ease 0.2s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            .prompt{
+                animation: fadeUpAnimationPrompt ease 0.5s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            .fila{
+                scale: 1;
+                transition: all 0.2s ease-in;
+                background-color: #264653;
+                color: white;
+            }
+            .fila:hover{
+                scale: 103%;
+                background-color: #FBF4EE;
+                color: black;
+            }
+
+            @keyframes fadeUpAnimation {
+                0%{
+                    margin-top: 100px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: initial;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeDownAnimation {
+                0%{
+                    margin-top: -50px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: initial;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes blur {
+                0%{
+                    backdrop-filter: blur(0px);
+                }
+                100%{
+                    backdrop-filter: blur(4px);
+                }
+            }
+
+            @keyframes fadeUpAnimationPrompt {
+                0%{
+                    margin-top: 250px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: 150px;
+                    opacity: 1;
+                }
+            }
+
+
+            .estado{
+                width: fit-content;
+                padding: 5px 10px;
+                border-radius: 5px;
+                background-color: #2A9D8F;
+                color: white;
+                font-family: Raleway;
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+        </style>
+
     </head>
     <body style="min-width: 770px">
 
@@ -202,7 +295,7 @@ if (isset($_GET['idPrestamo']) && isset($_SESSION['nombreUsuario']) && $_SESSION
                     echo '<td>' . $fechaVencimiento . '</td>';
                     echo '<td class="contact">
                         <div class="php-email-form">
-                            <button class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Pagado</button>
+                            <button onclick="pagado()" class="mx-1 my-1 estado" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Pagado</button>
                         </div>
                     </td>';
                     echo '</tr>';
@@ -219,7 +312,7 @@ if (isset($_GET['idPrestamo']) && isset($_SESSION['nombreUsuario']) && $_SESSION
             <?php
 
             while ($row = $result->fetch_assoc()) {
-                echo "<tr class='text-center' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px'>";
+                echo "<tr class='text-center fila' style='color: black ;background-color: #FBF4EE; border: transparent;font-family: Roboto;font-weight: 600; font-size: 15px; z-index: 1'>";
                 echo "<td>" . strtoupper($row['nombre']) . ' ' . strtoupper($row['apellido']) . "</td>";
                 echo "<td>" . strtoupper($row['tipodocumento']) . "</td>";
                 echo "<td>" . $row['documento'] . "</td>";
@@ -251,6 +344,35 @@ if (isset($_GET['idPrestamo']) && isset($_SESSION['nombreUsuario']) && $_SESSION
 
     <!-- Template Main JS File -->
     <script src="./assets/js/main.js"></script>
+    <script>
+        function pagado(){
+            let get=document.getElementsByClassName('estado')
+            get.style.color = 'white'
+            get.style.backgroundColor = '#2A9D8F'
+            get.style.width =  'fit-content'
+            get.style.padding = '5px 10px'
+            get.style.borderRadius = '5px'
+            get.button.textContent = 'Pagado'
+            get.style.fontFamily = 'Raleway'
+            get.style.fontWeight = '600'
+            get.style.fontSize = '14px'
+            get.button.textContent = 'Pagado'
+        }
+
+        function pendiente(){
+            let get = document.getElementsByClassName('estado')
+            get.style.color = 'black'
+            get.style.backgroundColor = '#E9C46A'
+            get.style.width =  'fit-content'
+            get.style.padding = '5px 10px'
+            get.style.borderRadius = '5px'
+            get.button.textContent = 'Pagado'
+            get.style.fontFamily = 'Raleway'
+            get.style.fontWeight = '600'
+            get.style.fontSize = '14px'
+            get.button.textContent = 'Pendiente'
+        }
+    </script>
 
     </body>
     </html>
