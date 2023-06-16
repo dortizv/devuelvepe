@@ -21,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $db->prepare($sql);
     $stmt->bind_param("ids", $idPrestamoAmortizar,$montoAmortizar, $fechaAmortizar);
     $stmt->execute();
+    mysqli_close($db);
 
     // Comprueba si la inserción se ejecutó correctamente
     if ($stmt->affected_rows > 0) {

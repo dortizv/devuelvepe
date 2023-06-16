@@ -19,6 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("iiii", $montoEdit, $tasaEdit, $cuotasEdit, $idPrestamo);
     $stmt->execute();
 
+    mysqli_close($db);
+
     // Comprueba si la consulta se ejecutó correctamente
     if ($stmt->affected_rows > 0) {
         echo "El préstamo se ha actualizado exitosamente.";

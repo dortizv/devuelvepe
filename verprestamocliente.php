@@ -256,12 +256,6 @@ if (isset($_GET['idPrestamo']) && isset($_SESSION['nombreUsuario']) && $_SESSION
                     <li class="col-auto php-email-form" style="min-width: 190px">
                         <input type="text" class="form-control" name="buscar" placeholder="Buscar" required>
                     </li class="col-6">
-                    <li onclick="openDiv()" class="col-auto justify-content-center align-items-center d-flex"
-                        style="cursor: pointer">
-                        <img class="col-auto" src="assets/icons/modify.png" style="height: 40px">
-                        <a class="col-auto m-0 p-0 px-2 text-black"
-                           style="font-family: Raleway; font-weight: 600; font-size: 20px">Modificar datos</a>
-                    </li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav>

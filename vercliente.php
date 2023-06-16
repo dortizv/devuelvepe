@@ -9,7 +9,7 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
 
     $db = connect_db();
 
-    $sqlCliente = "SELECT cliente.nombre AS nombreCliente, cliente.apellido AS apellidoCliente, cliente.documento, cliente.telefono, cliente.direccion 
+    $sqlCliente = "SELECT cliente.nombre AS nombreCliente, cliente.apellido AS apellidoCliente, cliente.tipodocumento, cliente.documento, cliente.telefono, cliente.direccion 
                     FROM cliente
                     WHERE cliente.id = ?";
 
@@ -19,7 +19,9 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
     $resultCliente = $stmtCliente->get_result();
     $row = $resultCliente->fetch_assoc();
 
-    $nombreCliente = $row['nombreCliente'] . " " . $row['apellidoCliente'];
+    $nombreCliente = $row['nombreCliente'];
+    $apellidoCliente = $row['apellidoCliente'];
+    $tipodocumentoCliente = $row['tipodocumento'];
     $documentoCliente = $row['documento'];
     $telefonoCliente = $row['telefono'];
     $direccionCliente = $row['direccion'];
@@ -33,6 +35,8 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
     $stmt->bind_param("i", $idCliente);
     $stmt->execute();
     $result = $stmt->get_result();
+
+    mysqli_close($db);
 
  ?>
     <!DOCTYPE html>
@@ -149,45 +153,48 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
     <body style="min-width: 770px">
 
     <!-- ============== POP-UP EDICIÓN DE CLIENTE ============== -->
-    <div class="struct" id="nuevopres" style="z-index: 2">
+    <div class="struct" id="editCliente" style="z-index: 2">
         <div class="prompt">
-
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Editar cliente</p>
-            <form class="container" method="POST" action="./cliente/addCliente.php">
+            <form class="container" method="POST" action="./cliente/editCliente.php">
                 <div class="row p-0 m-0">
+                    <div class="inputId" style="display: none">
+                        <input type="number" readonly="readonly" class="form-control" id="idClienteEdit"
+                               name="idClienteEdit"
+                               style="float: right; text-align: right; border: 1px solid whitesmoke;color:whitesmoke; background-color: whitesmoke; width:10px;">
+                    </div>
                     <div class="col-6 mb-3">
-                        <label for="nombreAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Nombre:</label>
-                        <input type="text" class="form-control" id="nombreAdd" name="nombreAdd" required
+                        <label for="nombreEdit" style="font-family: Raleway; font-weight: 600; font-size: 16px">Nombre:</label>
+                        <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
                     <div class="col-6 mb-3">
-                        <label for="apellidoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Apellido:</label>
-                        <input type="text" class="form-control" id="apellidoAdd" name="apellidoAdd" required
+                        <label for="apellidoEdit" style="font-family: Raleway; font-weight: 600; font-size: 16px">Apellido:</label>
+                        <input type="text" class="form-control" id="apellidoEdit" name="apellidoEdit" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
                 </div>
 
                 <div class="row p-0 m-0 align-content-center justify-content-center">
                     <div class="col-7 mb-3">
-                        <label for="documentoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Documento de identidad:</label>
-                        <input type="text" class="form-control" id="documentoAdd" name="documentoAdd" maxlength="8" pattern="^[0-9]{8}$" required
+                        <label for="documentoEdit" style="font-family: Raleway; font-weight: 600; font-size: 16px">Documento de identidad:</label>
+                        <input type="text" class="form-control" id="documentoEdit" name="documentoEdit" maxlength="8" pattern="^[0-9]{8}$" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
                     <div class="col-5 mb-3">
-                        <label for="tipodocumentoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Tipo de documento</label>
                         <div class="form-check custom-radio px-0">
-                            <input type="radio" name="tipodocumentoAdd" value="dni" id="dni" required> DNI
-                            <input type="radio" name="tipodocumentoAdd" value="carnetext" id="carnetext" required> Carnet Extranjería
+                            <input type="radio" name="tipodocumentoEdit" value="dni" id="dni" required> DNI
+                            <input type="radio" name="tipodocumentoEdit" value="carnetext" id="carnetext" required> Carnet Extranjería
                         </div>
                     </div>
                     <div class="row p-0 m-0">
                         <div class="col-6 mb-3">
-                            <label for="direccionAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Dirección:</label>
-                            <input type="text" class="form-control" id="direccionAdd" name="direccionAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">
+                            <label for="direccionEdit" style="font-family: Raleway; font-weight: 600; font-size: 16px">Dirección:</label>
+                            <input type="text" class="form-control" id="direccionEdit" name="direccionEdit" required="font-family: Raleway; font-weight: 600; font-size: 16px">
                         </div>
                         <div class="col-6 mb-3">
-                            <label for="telefonoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Teléfono:</label>
-                            <input type="text" class="form-control" id="telefonoAdd" name="telefonoAdd" maxlength="9" pattern="^[0-9]{9}$"
+                            <label for="telefonoEdit" style="font-family: Raleway; font-weight: 600; font-size: 16px">Teléfono:</label>
+                            <input type="text" class="form-control" id="telefonoEdit" name="telefonoEdit" required maxlength="9"
                                    pattern="^[0-9]{9}$" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                         </div>
                     </div>
@@ -200,12 +207,10 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
 
                 <button onclick="closeDiv()" class="mx-1 my-1"
                         style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: slategray; color: white; font-family: Raleway; font-weight: 600; font-size: 14px"
-                        type="submit">Cancelar
+                        type="button">Cancelar
                 </button>
 
             </form>
-
-
         </div>
     </div>
     <!-- ============== FIN POP-UP EDICIÓN DE CLIENTE ============== -->
@@ -231,7 +236,7 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
             <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
                 <img class="m-3" src="assets/icons/client.png" width="80px">
                 <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">
-                    <?php echo $nombreCliente ?>
+                    <?php echo $nombreCliente." ".$apellidoCliente ?>
                 </p>
                 <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway;font-weight: 600;font-size: 15px">
                     <p class="my-3 p-0">DNI:  <?php echo $documentoCliente?></p>
@@ -252,7 +257,7 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
                     <li class="col-auto php-email-form" style="min-width: 190px">
                         <input type="text" class="form-control" name="buscar" placeholder="Buscar" required>
                     </li class="col-6">
-                    <li onclick="openDiv()" class="col-auto justify-content-center align-items-center d-flex"
+                    <li onclick="openDiv('<?php echo $idCliente; ?>','<?php echo $nombreCliente; ?>', '<?php echo $apellidoCliente; ?>', '<?php echo $documentoCliente; ?>', '<?php echo $telefonoCliente; ?>', '<?php echo $direccionCliente; ?>')" class="col-auto justify-content-center align-items-center d-flex"
                         style="cursor: pointer">
                         <img class="col-auto" src="assets/icons/modify.png" style="height: 40px">
                         <a class="col-auto m-0 p-0 px-2 text-black"
@@ -330,7 +335,19 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
 
     <!-- Template Main JS File -->
     <script src="./assets/js/main.js"></script>
+    <script>
+        function openDiv(idCliente, nombreCliente, apellidoCliente, documento, telefono, direccion ) {
+            let get = document.querySelector('#editCliente');
+            get.style.display = 'block';
+            document.getElementById("idClienteEdit").value = idCliente;
+            document.getElementById("nombreEdit").value = nombreCliente;
+            document.getElementById("apellidoEdit").value = apellidoCliente;
+            document.getElementById("documentoEdit").value = documento;
+            document.getElementById("telefonoEdit").value = telefono;
+            document.getElementById("direccionEdit").value = direccion;
 
+        }
+    </script>
     </body>
     </html>
 
