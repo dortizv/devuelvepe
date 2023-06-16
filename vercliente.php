@@ -39,7 +39,7 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
     <html lang="es">
     <head>
         <meta charset="utf-8">
-        <title>Login</title>
+        <title>Info Cliente</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
         <!-- Google Fonts -->

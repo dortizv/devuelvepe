@@ -50,7 +50,6 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     // Cerrar la conexión
     mysqli_close($db);
 ?>
-    ?>
     <!DOCTYPE html>
     <html lang="es">
     <head>
@@ -293,32 +292,40 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">
                 Amortizar</p>
             <div class="container">
+                <form action="./prestamo/amortizar.php" method="POST">
+
+                <!-- campo id préstamo a amortizar-->
+                <div class="idAmortizar" style="display: none">
+                    <input class="" type="number" readonly="readonly" class="form-control" id="idAmortizar"
+                           name="idAmortizar"
+                           style="float: right; text-align: right; border: 1px solid whitesmoke;color:whitesmoke; background-color: whitesmoke; width:10px;">
+                </div>
+
+                <!-- campo pago mensual -->
+                 <div class="mb-3">
+                    <label for="montoAmortizar" style="font-family: Raleway; font-weight: 600; font-size: 16px">Monto
+                        (S/):</label>
+                    <input type="number" readonly="readonly" class="form-control" id="montoAmortizar" name="montoAmortizar"
+                           style="font-family: Raleway; font-weight: 600; font-size: 16px; background-color: whitesmoke">
+                </div>
 
                 <!-- campo fecha -->
                 <div class="mb-3">
-                    <label for="fecha" style="font-family: Raleway; font-weight: 600; font-size: 16px">Fecha</label>
-                    <input type="text" class="form-control" id="fecha" name="fecha"
+                    <label for="fechaAmortizar" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresa la fecha:</label>
+                    <input type="date" class="form-control" id="fechaAmortizar" name="fechaAmortizar"
                            style="font-family: Raleway; font-weight: 600; font-size: 16px">
                 </div>
 
-                <!-- campo cuotas -->
-                <div class="mb-3">
-                    <label for="monto" style="font-family: Raleway; font-weight: 600; font-size: 16px">Ingresa el monto
-                        (S/):</label>
-                    <input type="text" class="form-control" id="monto" name="monto"
-                           style="font-family: Raleway; font-weight: 600; font-size: 16px">
-                </div>
-
-                <button onclick="closeDiveamor()" class="mx-1 my-1"
-                        style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px"
-                        type="submit">Aceptar
+                <button type="submit" class="mx-1 my-1"
+                            style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px">
+                        Aceptar
                 </button>
 
                 <button onclick="closeDiveamor()" class="mx-1 my-1"
                         style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: slategray; color: white; font-family: Raleway; font-weight: 600; font-size: 14px"
-                        type="submit">Cancelar
+                        type="button">Cancelar
                 </button>
-
+                </form>
             </div>
         </div>
     </div>
@@ -339,7 +346,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                            style="font-family: Raleway; font-weight: 600; font-size: 20px">Inicio</a>
                     </li>
                     <li class="col-auto php-email-form" style="min-width: 190px">
-                        <input type="text" class="form-control" name="buscar" placeholder="Buscar" required>
+                        <input type="text" class="form-control" name="buscar" placeholder="Buscar">
                     </li class="col-6">
                     <li onclick="openDiv()" class="col-auto justify-content-center align-items-center d-flex"
                         style="cursor: pointer">
@@ -395,7 +402,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                 echo '<td class="contact">
                     <div class="php-email-form">
                         <button type="submit" onclick="openDiveditar(\'' . $idPrestamo . '\', \'' . $clienteNA . '\', \'' . $cobranorNA . '\', \'' . $monto . '\', \'' . $tasa . '\', \'' . $cuotas . '\')" class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #E9C46A; color: black; font-family: Raleway; font-weight: 600; font-size: 14px">Editar</button>
-                        <button type="submit" onclick="openDivamor()" class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px">Amortizar</button>
+                        <button type="submit" onclick="openDivamor(\'' . $idPrestamo . '\', \'' . $monto . '\', \'' . $tasa . '\', \'' . $cuotas . '\')" class="mx-1 my-1" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px">Amortizar</button>
                     </div>
                     </td>';
 
@@ -439,6 +446,22 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
             montoEdit.value = monto;
             tasaEdit.value = tasa;
             cuotasEdit.value = cuotas;
+
+        }
+
+        function openDivamor(idPrestamo, monto, tasa, cuotas ){
+            let get = document.querySelector('#amortizar');
+            get.style.display = 'block';
+
+            var idPrestamoEdit = document.getElementById("idAmortizar");
+            var pagoAmortizar = document.getElementById("montoAmortizar");
+            var fechaAmortizar = document.getElementById("fechaAmortizar");
+
+            //Asignar valores a los campos del pop-up
+            idPrestamoEdit.value = idPrestamo;
+            tasa = tasa / 100;
+            pagoAmortizar.value = Math.round((monto * tasa) / (1 - Math.pow(1 + tasa, -cuotas)) * 100) / 100;
+            fechaAmortizar.value = new Date().toISOString().slice(0, 10);
 
         }
     </script>

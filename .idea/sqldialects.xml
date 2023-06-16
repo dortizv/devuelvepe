@@ -4,6 +4,9 @@
     <file url="file://$PROJECT_DIR$/cliente/addCliente.php" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/clientes.php" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/cobradores.php" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/prestamo/amortizar.php" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/prestamos.php" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/vercobrador.php" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/verprestamocliente.php" dialect="MySQL" />
   </component>
 </project>

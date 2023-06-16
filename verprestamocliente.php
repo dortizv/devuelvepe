@@ -16,7 +16,6 @@ if (isset($_GET['idPrestamo']) && isset($_SESSION['nombreUsuario']) && $_SESSION
                     INNER JOIN prestamo ON prestamo.idCliente = cliente.id
                     WHERE prestamo.id = ?";
 
-
     $stmt = $db->prepare($sql);
     $stmt->bind_param("i", $idPrestamo);
     $stmt->execute();
@@ -28,14 +27,24 @@ if (isset($_GET['idPrestamo']) && isset($_SESSION['nombreUsuario']) && $_SESSION
     $cuotas = $row['cuotas'];
     $monto = $row['monto'];
     $fecha = $row['fecha'];
-    
 
+    //cantidad de pagos realizados
+    $pagos = "SELECT COUNT(*) AS count FROM pago WHERE idPrestamo = ?";
+    $stmtPagos = $db ->prepare($pagos);
+    $stmtPagos ->bind_param("i", $idPrestamo);
+    $stmtPagos->execute();
+    $resultPagos = $stmtPagos->get_result();
+    $rowPagos = $resultPagos->fetch_assoc();
+
+    $cantidadPagos = $rowPagos['count'];
+
+    $db->close();
  ?>
     <!DOCTYPE html>
     <html lang="es">
     <head>
         <meta charset="utf-8">
-        <title>Login</title>
+        <title>Préstamos de Clientes</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
         <!-- Google Fonts -->
@@ -274,38 +283,47 @@ if (isset($_GET['idPrestamo']) && isset($_SESSION['nombreUsuario']) && $_SESSION
                 </tr>
             </thead>
             <tbody class="align-middle justify-content-center">
-            <?php
-                $tasa = $tasa/100;
-                // Cálculo de la cuota
-                $pago = round(($monto * $tasa) / (1 - pow(1 + $tasa, -$cuotas)),2);
+        <?php
+            $tasa = $tasa / 100;
+            // Cálculo de la cuota
+            $pago = round(($monto * $tasa) / (1 - pow(1 + $tasa, -$cuotas)), 2);
 
-                for ($i = 1; $i <= $cuotas; $i++) {
-                    // Cálculo de la amortización e interés para cada periodo
-                    $interes = round($monto * $tasa,2);
-                    $amortizacion = round($pago - $interes,2);
+            $contador = $cantidadPagos; // Utilizar $cantidadPagos como valor inicial
 
-                    // Fecha de vencimiento
-                    $fechaVencimiento = date('d-m-Y', strtotime($fecha . "+$i month"));
+            for ($i = 1; $i <= $cuotas; $i++) {
+                // Cálculo de la amortización e interés para cada periodo
+                $interes = round($monto * $tasa, 2);
+                $amortizacion = round($pago - $interes, 2);
 
-                    echo '<tr class="text-center" style="color: white; background-color: #264653; border: transparent; font-family: Roboto; font-weight: 600; font-size: 15px">';
-                    echo '<td>' . $i . '</td>';
-                    echo '<td>' . $amortizacion . '</td>';
-                    echo '<td>' . $interes . '</td>';
-                    echo '<td>' . $pago . '</td>';
-                    echo '<td>' . $fechaVencimiento . '</td>';
-                    echo '<td class="contact">
-                        <div class="php-email-form">
-                            <button onclick="pagado()" class="mx-1 my-1 estado" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Pagado</button>
-                        </div>
-                    </td>';
-                    echo '</tr>';
-                    // Actualizar el monto pendiente para el próximo periodo
-                    $monto -= $amortizacion;
+                // Fecha de vencimiento
+                $fechaVencimiento = date('d-m-Y', strtotime($fecha . "+$i month"));
+
+                echo '<tr class="text-center" style="color: white; background-color: #264653; border: transparent; font-family: Roboto; font-weight: 600; font-size: 15px">';
+                echo '<td>' . $i . '</td>';
+                echo '<td>' . $amortizacion . '</td>';
+                echo '<td>' . $interes . '</td>';
+                echo '<td>' . $pago . '</td>';
+                echo '<td>' . $fechaVencimiento . '</td>';
+                echo '<td class="contact">';
+                if ($contador > 0) { // Verificar si el contador es mayor a cero
+                    echo '<div class="php-email-form">';
+                    echo '<button onclick="pagado()" class="mx-1 my-1 estado" style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: #2A9D8F; color: white; font-family: Raleway; font-weight: 600; font-size: 14px" type="submit">Pagado</button>';
+                    echo '</div>';
                 }
+                echo '</td>';
+                echo '</tr>';
 
-                echo '</tbody>';
-                echo '</table>';
-            ?>
+                // Actualizar el monto pendiente para el próximo periodo
+                $monto -= $amortizacion;
+
+                // Decrementar el contador después de mostrar la primera entrada
+                $contador--;
+            }
+
+            echo '</tbody>';
+            echo '</table>';
+        ?>
+
             <!-- Lógica de listado de prestamos-->
 
             <!--
