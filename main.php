@@ -106,7 +106,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']){
             <div class="row my-1">
                 <p class="font-custom text-center p-0 mb-4" style="font-family:Raleway; font-size: 28px; font-weight: 500">
                     <!-- MOSTRAR NOMBRE DE USUARIO -->
-                    <?php echo isset($_SESSION['nombreUsuario']) ? '¡Bienvenido '.$_SESSION['nombreUsuario'].'!' : " ERROR DE SESIÓN"; ?>
+                    <?php echo isset($_SESSION['nombreUsuario']) ? '¡Hola '.$_SESSION['nombreUsuario'].'!' : " ERROR DE SESIÓN"; ?>
                 </p>
             </div>
 

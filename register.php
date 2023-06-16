@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <html lang="es">
 
@@ -28,17 +31,7 @@
 </head>
 
 <body class="my-5 contact h-100" style="min-width: 460px">
-    <?php
-    session_start();
-    // Verificar si hay error por contraseñas incorrectas
-    if (isset($_SESSION['error_message'])) {
-        // Mostrar el mensaje de error
-        echo $_SESSION['error_message'];
 
-        // Limpiar el mensaje de error de la variable de sesión
-        unset($_SESSION['error_message']);
-    }
-    ?>
     <div style="background-color: #2A9D8F; color: white;" class="container-fluid align-content-center justify-content-center px-4 php-email-form m-auto" id="container-sign-up">
         <div class="section-title">
             <h2 class="text-white text-center pt-4">Crear una cuenta</h2>
@@ -55,7 +48,7 @@
 
             <div class="row align-content-center justify-content-center">
                 <div class="col-md-4 col-sm-12 mb-3 m-auto justify-content-center">
-                    <input type="text" class="form-control" name="numerodocumento" placeholder="Documento de identidad"  pattern="^[0-9]{8}$" required>
+                    <input type="text" class="form-control" name="numerodocumento" placeholder="Documento de identidad" maxlength="8" pattern="^[0-9]{8}$" required>
                 </div>
 
                 <div class="col-md-4 col-sm-12 mb-3 m-auto">
@@ -92,7 +85,7 @@
                     <input type="text" class="form-control" name="direccion" placeholder="Dirección" required>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" name="telefono" placeholder="Teléfono" pattern="^[0-9]{9}$" required>
+                    <input type="text" class="form-control" name="telefono" placeholder="Teléfono" pattern="^[0-9]{9}$" maxlength="9" required>
                 </div>
             </div>
 
@@ -131,6 +124,16 @@
             </div>
 
         </form>
+        <?php
+        // Verificar si hay error por contraseñas incorrectas
+        if (isset($_SESSION['error_message'])) {
+            // Mostrar el mensaje de error
+            echo '<p style="color: black; font-weight: bold; text-align: center">' . $_SESSION['error_message'] . '</p>';
+
+            // Limpiar el mensaje de error de la variable de sesión
+            unset($_SESSION['error_message']);
+        }
+        ?>
     </div>
 
     <!-- Optional JavaScript -->

@@ -2,7 +2,7 @@
 include_once("db.php");
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
+    session_start();
     //EXTRAER VALORES DEL REGISTER
     $name=strtoupper($_POST['nombre']);
     $lastname=strtoupper($_POST['apellido']);
@@ -40,13 +40,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // VERIFICAR SI LA INSERCIÓN FUE EXITOSA
     if($stmt->affected_rows > 0){
         // Registro exitoso
+        $_SESSION['error_message'] = "Tu usuario ".$username." fue registrado correctamente.";
         header("Location:./login.php");
     }else{
         // Ocurrió un error al insertar los datos
         echo "Error en el registro: " . $db->error;
     }
-    
-    $stmt->close();
+
     $db->close();
 }
 ?>

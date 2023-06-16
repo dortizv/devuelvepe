@@ -47,7 +47,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // VERIFICAR SI LA INSERCIÓN FUE EXITOSA
     if($stmt->affected_rows > 0){
         // Registro exitoso
+        $_SESSION['error_message'] = "Tu usuario ".$username." fue registrado correctamnete.";
         header("Location:./../login.php");
+        exit();
     }else{
         // Ocurrió un error al insertar los datos
         echo "Error en el registro: " . $db->error;
