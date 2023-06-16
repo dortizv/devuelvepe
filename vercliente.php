@@ -183,7 +183,7 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
                     </div>
                     <div class="col-5 mb-3">
                         <div class="form-check custom-radio px-0">
-                            <input type="radio" name="tipodocumentoEdit" value="dni" id="dni" required> DNI
+                            <input type="radio" name="tipodocumentoEdit" value="dni" id="dni" checked required> DNI
                             <input type="radio" name="tipodocumentoEdit" value="carnetext" id="carnetext" required> Carnet Extranjería
                         </div>
                     </div>
@@ -205,7 +205,7 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
                         type="submit">Aceptar
                 </button>
 
-                <button onclick="closeDiv()" class="mx-1 my-1"
+                <button onclick="closeDiveditar()" class="mx-1 my-1"
                         style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: slategray; color: white; font-family: Raleway; font-weight: 600; font-size: 14px"
                         type="button">Cancelar
                 </button>
@@ -346,6 +346,10 @@ if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsua
             document.getElementById("telefonoEdit").value = telefono;
             document.getElementById("direccionEdit").value = direccion;
 
+        }
+        function closeDiveditar(){
+            let get = document.querySelector('#editCliente');
+            get.style.display = 'none';
         }
     </script>
     </body>

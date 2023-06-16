@@ -4,12 +4,10 @@ include_once("./../register-val/db.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     session_start();
     //EXTRAER VALORES PARA EDITAR PRÉSTAMO
-    $idClienteEdit = intval($_POST['idClienteEdit']);
+    $idCobradorEdit = intval($_POST['idCobradorEdit']);
     $nombreEdit = $_POST['nombreEdit'];
     $apellidoEdit = $_POST['apellidoEdit'];
     $documentoEdit = $_POST['documentoEdit'];
-    $tipodocumentoEdit = $_POST['tipodocumentoEdit'];
-    $direccionEdit = $_POST['direccionEdit'];
     $telefonoEdit= $_POST['telefonoEdit'];
 
     // INSERTAR LA INFORMACIÓN EN LA BASE DE DATOS
@@ -17,19 +15,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $db = connect_db();
 
     // Utilizando consultas preparadas con mysqli
-    $stmt = $db->prepare("UPDATE cliente SET nombre = ?, apellido = ?, tipodocumento = ?, documento = ?, direccion = ?, telefono = ? WHERE id = ?");
-    $stmt->bind_param("ssssssi", $nombreEdit, $apellidoEdit, $tipodocumentoEdit, $documentoEdit, $direccionEdit, $telefonoEdit,$idClienteEdit);
+    $stmt = $db->prepare("UPDATE cobrador SET nombre = ?, apellido = ?, dni = ?, telefono = ? WHERE id = ?");
+    $stmt->bind_param("ssssi", $nombreEdit, $apellidoEdit, $documentoEdit, $telefonoEdit, $idCobradorEdit);
     $stmt->execute();
 
     mysqli_close($db);
 
     // Comprueba si la consulta se ejecutó correctamente
     if ($stmt->affected_rows > 0) {
-        $_SESSION['successMessage'] = "Los datos del cliente ".$nombreEdit." ".$apellidoEdit." se actualizaron correctamente.";
+        $_SESSION['successMessage'] = "Los datos del cobrador ".$nombreEdit." ".$apellidoEdit." se actualizaron exitosamente.";
         header("Location: ./../main.php");
         exit();
     } else {
-        echo "No se encontró el cliente.";
+        echo "No se encontró el cobrador.";
         exit;
     }
 }

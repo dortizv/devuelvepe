@@ -19,7 +19,8 @@
     $resultCobrador = $stmtCobrador->get_result();
     $row = $resultCobrador->fetch_assoc();
 
-    $nombreCobrador = $row['nombreCobrador']." ".$row['apellidoCobrador'];
+    $nombreCobrador = $row['nombreCobrador'];
+    $apellidoCobrador = $row['apellidoCobrador'];
     $documentoCobrador = $row['dni'];
     $telefonoCobrador = $row['telefono'];
 
@@ -149,34 +150,39 @@
     <body style="min-width: 770px">
 
     <!-- ============== POP-UP EDICIÓN DE COBRADOR ============== -->
-    <div class="struct" id="nuevopres" style="z-index: 2">
+    <div class="struct" id="editCobrador" style="z-index: 2">
         <div class="prompt">
 
             <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Editar cobrador</p>
-            <form class="container" method="POST" action="./cliente/addCliente.php">
+            <form class="container" method="POST" action="./cobrador/editCobrador.php">
+                <div class="inputId" style="display: none">
+                    <input type="number" readonly="readonly" class="form-control" id="idCobradorEdit"
+                           name="idCobradorEdit"
+                           style="float: right; text-align: right; border: 1px solid whitesmoke;color:whitesmoke; background-color: whitesmoke; width:10px;">
+                </div>
                 <div class="row p-0 m-0">
                     <div class="col-6 mb-3">
-                        <label for="nombreAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Nombre:</label>
-                        <input type="text" class="form-control" id="nombreAdd" name="nombreAdd" required
+                        <label for="nombreEdit" style="font-family: Raleway; font-weight: 600; font-size: 16px">Nombre:</label>
+                        <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
                     <div class="col-6 mb-3">
-                        <label for="apellidoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Apellido:</label>
-                        <input type="text" class="form-control" id="apellidoAdd" name="apellidoAdd" required
+                        <label for="apellidoEdit" style="font-family: Raleway; font-weight: 600; font-size: 16px">Apellido:</label>
+                        <input type="text" class="form-control" id="apellidoEdit" name="apellidoEdit" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
                 </div>
 
                 <div class="row p-0 m-0 align-content-center justify-content-center">
                     <div class="col-6 mb-3">
-                        <label for="documentoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">DNI:</label>
-                        <input type="text" class="form-control" id="documentoAdd" name="documentoAdd" maxlength="8" pattern="^[0-9]{8}$" required
+                        <label for="documentoEdit" style="font-family: Raleway; font-weight: 600; font-size: 16px">DNI:</label>
+                        <input type="text" class="form-control" id="documentoEdit" name="documentoEdit" maxlength="8" pattern="^[0-9]{8}$" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
                     <div class="col-6 mb-3">
-                        <label for="telefonoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Teléfono:</label>
-                        <input type="text" class="form-control" id="telefonoAdd" name="telefonoAdd" maxlength="9" pattern="^[0-9]{9}$"
-                               pattern="^[0-9]{9}$" style="font-family: Raleway; font-weight: 600; font-size: 16px">
+                        <label for="telefonoEdit" style="font-family: Raleway; font-weight: 600; font-size: 16px">Teléfono:</label>
+                        <input type="text" class="form-control" id="telefonoEdit" name="telefonoEdit" maxlength="9" pattern="^[0-9]{9}$"
+                               required style="font-family: Raleway; font-weight: 600; font-size: 16px">
                         </div>
                 </div>
 
@@ -185,9 +191,9 @@
                         type="submit">Aceptar
                 </button>
 
-                <button onclick="closeDiv()" class="mx-1 my-1"
+                <button onclick="closeDiveditar()" class="mx-1 my-1"
                         style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: slategray; color: white; font-family: Raleway; font-weight: 600; font-size: 14px"
-                        type="submit">Cancelar
+                        type="button">Cancelar
                 </button>
         </div>
 
@@ -205,7 +211,7 @@
             <div class="logo py-0 d-flex align-items-center" style="font-size: xx-large; color: black">
                 <img class="m-3" src="assets/icons/client.png" width="80px">
                 <p class="m-0 px-2" style="font-size: 25px; font-family: Raleway">
-                    <?php echo $nombreCobrador;?>
+                    <?php echo $nombreCobrador. " ".$apellidoCobrador;?>
                 </p>
                 <div class="col mx-4" style="margin-left: auto;color: black;font-family: Raleway;font-weight: 600;font-size: 15px">
                     <p class="my-3 p-0">DNI: <?php echo $documentoCobrador; ?> </p>
@@ -225,7 +231,7 @@
                     <li class="col-auto php-email-form" style="min-width: 190px">
                         <input type="text" class="form-control" name="buscar" placeholder="Buscar" required>
                     </li class="col-6">
-                    <li onclick="openDiv()" class="col-auto justify-content-center align-items-center d-flex"
+                    <li onclick="openDiv('<?php echo $idCobrador; ?>','<?php echo $nombreCobrador; ?>', '<?php echo $apellidoCobrador; ?>', '<?php echo $documentoCobrador; ?>', '<?php echo $telefonoCobrador; ?>')" class="col-auto justify-content-center align-items-center d-flex"
                         style="cursor: pointer">
                         <img class="col-auto" src="assets/icons/modify.png" style="height: 40px">
                         <a class="col-auto m-0 p-0 px-2 text-black"
@@ -299,6 +305,22 @@
 
     <!-- Template Main JS File -->
     <script src="./assets/js/main.js"></script>
+
+    <script>
+        function openDiv(idCobrador, nombreCobradror, apellidoCobrador, documento, telefono) {
+            let get = document.querySelector('#editCobrador');
+            get.style.display = 'block';
+            document.getElementById("idCobradorEdit").value = idCobrador;
+            document.getElementById("nombreEdit").value = nombreCobradror;
+            document.getElementById("apellidoEdit").value = apellidoCobrador;
+            document.getElementById("documentoEdit").value = documento;
+            document.getElementById("telefonoEdit").value = telefono;
+        }
+        function closeDiveditar(){
+            let get = document.querySelector('#editCobrador');
+            get.style.display = 'none';
+        }
+    </script>
 
     </body>
     </html>
