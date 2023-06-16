@@ -65,14 +65,94 @@
         <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
 
 
+        <style>
+            .fila{
+                scale: 1;
+                transition: all 0.2s ease-in;
+                background-color: #264653;
+                color: white;
+            }
+            .fila:hover{
+                scale: 103%;
+                background-color: #FBF4EE;
+                color: black;
+            }
+            header{
+                animation: fadeDownAnimation ease 1s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            table{
+                animation: fadeUpAnimation ease 1s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            #nuevopres{
+                animation: blur ease 0.2s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            .prompt{
+                animation: fadeUpAnimationPrompt ease 0.5s;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+            }
+
+            @keyframes fadeUpAnimation {
+                0%{
+                    margin-top: 100px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: initial;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeDownAnimation {
+                0%{
+                    margin-top: -50px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: initial;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes blur {
+                0%{
+                    backdrop-filter: blur(0px);
+                }
+                100%{
+                    backdrop-filter: blur(4px);
+                }
+            }
+
+            @keyframes fadeUpAnimationPrompt {
+                0%{
+                    margin-top: 250px;
+                    opacity: 0;
+                }
+                100%{
+                    margin-top: 150px;
+                    opacity: 1;
+                }
+            }
+
+        </style>
+
     </head>
     <body style="min-width: 770px">
 
-    <!-- ============== POP-UP EDICIÓN DE CLIENTE ============== -->
-    <div class="struct" id="nuevopres">
+    <!-- ============== POP-UP EDICIÓN DE COBRADOR ============== -->
+    <div class="struct" id="nuevopres" style="z-index: 2">
         <div class="prompt">
 
-            <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Editar cliente</p>
+            <p style="margin-top: ; font-weight: 600; font-family: Raleway; font-size: 28px; text-align: center">Editar cobrador</p>
             <form class="container" method="POST" action="./cliente/addCliente.php">
                 <div class="row p-0 m-0">
                     <div class="col-6 mb-3">
@@ -88,29 +168,16 @@
                 </div>
 
                 <div class="row p-0 m-0 align-content-center justify-content-center">
-                    <div class="col-7 mb-3">
-                        <label for="documentoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Documento de identidad:</label>
+                    <div class="col-6 mb-3">
+                        <label for="documentoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">DNI:</label>
                         <input type="text" class="form-control" id="documentoAdd" name="documentoAdd" maxlength="8" pattern="^[0-9]{8}$" required
                                style="font-family: Raleway; font-weight: 600; font-size: 16px">
                     </div>
-                    <div class="col-5 mb-3">
-                        <label for="tipodocumentoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Tipo de documento</label>
-                        <div class="form-check custom-radio px-0">
-                            <input type="radio" name="tipodocumentoAdd" value="dni" id="dni" required> DNI
-                            <input type="radio" name="tipodocumentoAdd" value="carnetext" id="carnetext" required> Carnet Extranjería
+                    <div class="col-6 mb-3">
+                        <label for="telefonoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Teléfono:</label>
+                        <input type="text" class="form-control" id="telefonoAdd" name="telefonoAdd" maxlength="9" pattern="^[0-9]{9}$"
+                               pattern="^[0-9]{9}$" style="font-family: Raleway; font-weight: 600; font-size: 16px">
                         </div>
-                    </div>
-                    <div class="row p-0 m-0">
-                        <div class="col-6 mb-3">
-                            <label for="direccionAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Dirección:</label>
-                            <input type="text" class="form-control" id="direccionAdd" name="direccionAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">
-                        </div>
-                        <div class="col-6 mb-3">
-                            <label for="telefonoAdd" style="font-family: Raleway; font-weight: 600; font-size: 16px">Teléfono:</label>
-                            <input type="text" class="form-control" id="telefonoAdd" name="telefonoAdd" maxlength="9" pattern="^[0-9]{9}$"
-                                   pattern="^[0-9]{9}$" style="font-family: Raleway; font-weight: 600; font-size: 16px">
-                        </div>
-                    </div>
                 </div>
 
                 <button class="mx-1 my-1"
@@ -122,13 +189,14 @@
                         style="width: fit-content; padding: 5px 10px; border-radius: 5px; background-color: slategray; color: white; font-family: Raleway; font-weight: 600; font-size: 14px"
                         type="submit">Cancelar
                 </button>
+        </div>
 
             </form>
 
 
         </div>
     </div>
-    <!-- ============== FIN POP-UP EDICIÓN DE CLIENTE ============== -->
+    <!-- ============== FIN POP-UP EDICIÓN DE COBRADOR ============== -->
 
     <!-- ======== NAV BAR ========== -->
 

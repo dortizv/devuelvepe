@@ -235,7 +235,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
                 <form action="./prestamo/edit.php" method="POST">
 
                     <!-- campo id -->
-                    <div class="inputId">
+                    <div class="inputId" style="display: none">
                         <input class="" type="number" readonly="readonly" class="form-control" id="idPrestamoEdit"
                                name="idPrestamoEdit"
                                style="float: right; text-align: right; border: 1px solid whitesmoke;color:whitesmoke; background-color: whitesmoke; width:10px;">
