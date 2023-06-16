@@ -36,7 +36,7 @@ session_start();
         <div class="section-title">
             <h2 class="text-white text-center pt-4">Crear una cuenta</h2>
         </div>
-        <form class="col" action="register-val/lg-register.php" method = "POST">
+        <form class="col" action="./register-val/lg-register.php" method = "POST">
             <div class="row form-group mb-0">
                 <div class="col-md-6 mb-3">
                     <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
