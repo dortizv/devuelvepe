@@ -28,6 +28,16 @@ session_start();
 <body style="background-color: #FBF4EE">
 
 <main class="container-fluid vh-100" style="min-width: 30%; min-height: 30%;">
+    <?php
+    // Verificar si hay un mensaje de error en la variable de sesión
+    if (isset($_SESSION['error_message'])) {
+        // Mostrar el mensaje de error
+        echo '<p style="color: black; font-weight: bold; text-align: center">' . $_SESSION['error_message'] . '</p>';
+
+        // Limpiar el mensaje de error de la variable de sesión
+        unset($_SESSION['error_message']);
+    }
+    ?>
 
     <div class="d-flex text-center justify-content-center align-items-center h-100">
         <div style="background-color: #2A9D8F; min-width: 360px; max-width: 400px; height: 420px; margin: auto 5% auto 5%; padding: 30px;"  class="col contact rounded-5 text-center justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
@@ -52,16 +62,7 @@ session_start();
             
         </div>
     </div>
-    <?php
-    // Verificar si hay un mensaje de error en la variable de sesión
-    if (isset($_SESSION['error_message'])) {
-        // Mostrar el mensaje de error
-        echo '<p style="color: black; font-weight: bold; text-align: center">' . $_SESSION['error_message'] . '</p>';
 
-        // Limpiar el mensaje de error de la variable de sesión
-        unset($_SESSION['error_message']);
-    }
-    ?>
 </main>
 
 <!-- Vendor JS Files -->
