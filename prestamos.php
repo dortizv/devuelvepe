@@ -3,7 +3,7 @@
 session_start();
 if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
 
-    include_once("./login-val/db.php");
+    include_once("./db/db.php");
 
     $userId = $_SESSION['idUsuario'];
 
@@ -26,6 +26,7 @@ if (isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
     //Consulta a la BD para extraer listado de clientes y cobradores
     $opciones_clientes = "SELECT cliente.id, cliente.nombre, cliente.apellido 
                         FROM cliente
+                        WHERE idUsuario = $userId
                         ORDER BY cliente.nombre ASC";
     $result_clientes = $db->query($opciones_clientes);
 

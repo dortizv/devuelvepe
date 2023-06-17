@@ -2,7 +2,7 @@
 // VALIDACIÓN DE USUARIO LOGUEADO
 session_start();
 if (isset($_GET['id']) && isset($_SESSION['nombreUsuario']) && $_SESSION['idUsuario']) {
-    include_once("./login-val/db.php");
+    include_once("./db/db.php");
 
     $userId = $_SESSION['idUsuario'];
     $idCliente = $_GET['id'];

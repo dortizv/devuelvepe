@@ -1,6 +1,6 @@
 <?php
 //Conexión a la base de datos
-include_once("db.php");
+include_once("./../db/db.php");
 
 $db = connect_db();
 
